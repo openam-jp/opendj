@@ -25,6 +25,9 @@
  */
 package org.opends.server.replication.server.changelog.file;
 
+import static org.opends.messages.ReplicationMessages.*;
+import static org.opends.server.util.StaticUtils.*;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -64,8 +67,6 @@ import org.opends.server.replication.server.changelog.file.Log.LogRotationParame
 import org.opends.server.types.DN;
 import org.opends.server.types.DirectoryException;
 import org.opends.server.util.StaticUtils;
-
-import static org.opends.messages.ReplicationMessages.*;
 
 /**
  * Represents the replication environment, which allows to manage the lifecycle
@@ -384,8 +385,9 @@ class ReplicationEnvironment implements ChangelogStateProvider
     }
     catch (Exception e)
     {
-      throw new ChangelogException(
-          ERR_CHANGELOG_UNABLE_TO_CREATE_REPLICA_DB.get(domainDN.toString(), serverId, generationId), e);
+      LocalizableMessage msg = ERR_CHANGELOG_UNABLE_TO_CREATE_REPLICA_DB.get(
+          domainDN, serverId, generationId, stackTraceToSingleLineString(e));
+      throw new ChangelogException(msg, e);
     }
   }
 
