@@ -20,8 +20,7 @@
  *
  * CDDL HEADER END
  *
- *
- *      Copyright 2014-2015 ForgeRock AS.
+ * Copyright 2014-2016 ForgeRock AS.
  */
 package org.opends.server.replication.server.changelog.file;
 
@@ -623,7 +622,13 @@ class BlockLogReader<K extends Comparable<K>, V> implements Closeable
 Record<K, V> getNewestRecord() throws ChangelogException
  {
    try {
-     final long lastBlockStart = getClosestBlockStartBeforeOrAtPosition(getFileLength());
+     final long fileLength = getFileLength();
+     long lastBlockStart = getClosestBlockStartBeforeOrAtPosition(fileLength);
+     if (lastBlockStart == fileLength)
+     {
+       // this is not a valid block start, find the previous block start
+       lastBlockStart = getClosestBlockStartBeforeOrAtPosition(fileLength-1);
+     }
      positionToRecordFromBlockStart(lastBlockStart);
      ByteString candidate = readNextRecord();
      ByteString record = candidate;
