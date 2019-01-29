@@ -29,7 +29,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>opendj-server-parent</artifactId>
-    <groupId>org.forgerock.opendj</groupId>
+    <groupId>jp.openam.opendj</groupId>
     <version>3.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>opendj-server</artifactId>
@@ -49,23 +49,23 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.forgerock.opendj</groupId>
+      <groupId>jp.openam.opendj</groupId>
       <artifactId>opendj-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.forgerock.opendj</groupId>
+      <groupId>jp.openam.opendj</groupId>
       <artifactId>opendj-grizzly</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.forgerock.opendj</groupId>
+      <groupId>jp.openam.opendj</groupId>
       <artifactId>opendj-config</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.forgerock.commons</groupId>
+      <groupId>jp.openam.commons</groupId>
       <artifactId>forgerock-util</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.forgerock.commons</groupId>
+      <groupId>jp.openam.commons</groupId>
       <artifactId>i18n-core</artifactId>
     </dependency>
     <dependency>
@@ -73,17 +73,17 @@
       <artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.forgerock.opendj</groupId>
+      <groupId>jp.openam.opendj</groupId>
       <artifactId>opendj-core</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.forgerock</groupId>
+      <groupId>jp.openam</groupId>
       <artifactId>forgerock-build-tools</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.forgerock.opendj</groupId>
+      <groupId>jp.openam.opendj</groupId>
       <artifactId>opendj-cli</artifactId>
     </dependency>
   </dependencies>
@@ -141,7 +141,7 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.forgerock.commons</groupId>
+        <groupId>jp.openam.commons</groupId>
         <artifactId>i18n-maven-plugin</artifactId>
         <executions>
           <execution>

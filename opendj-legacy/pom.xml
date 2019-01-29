@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>opendj-server-parent</artifactId>
-    <groupId>org.forgerock.opendj</groupId>
+    <groupId>jp.openam.opendj</groupId>
     <version>3.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>opendj-legacy</artifactId>

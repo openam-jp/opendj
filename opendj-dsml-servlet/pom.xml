@@ -29,7 +29,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.forgerock.opendj</groupId>
+        <groupId>jp.openam.opendj</groupId>
         <artifactId>opendj-server-parent</artifactId>
         <version>3.0.1-SNAPSHOT</version>
     </parent>
@@ -47,102 +47,102 @@
     <dependencies>
         <!-- ForgeRock libraries -->
         <dependency>
-            <groupId>org.forgerock.commons</groupId>
+            <groupId>jp.openam.commons</groupId>
             <artifactId>forgerock-util</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.commons</groupId>
+            <groupId>jp.openam.commons</groupId>
             <artifactId>i18n-core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.commons</groupId>
+            <groupId>jp.openam.commons</groupId>
             <artifactId>i18n-slf4j</artifactId>
         </dependency>
 
         <!-- OpenDJ SDK dependencies -->
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-cli</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-core</artifactId>
         </dependency>
 
         <!-- OpenDJ Server dependencies -->
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-config</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <type>jar</type>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <classifier>ca_ES</classifier>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <classifier>de</classifier>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <classifier>es</classifier>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <classifier>fr</classifier>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <classifier>ja</classifier>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <classifier>ko</classifier>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <classifier>pl</classifier>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <classifier>zh_CN</classifier>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.forgerock.opendj</groupId>
+            <groupId>jp.openam.opendj</groupId>
             <artifactId>opendj-server-legacy</artifactId>
             <classifier>zh_TW</classifier>
             <version>${project.version}</version>

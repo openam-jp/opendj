@@ -29,7 +29,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>opendj-server-parent</artifactId>
-    <groupId>org.forgerock.opendj</groupId>
+    <groupId>jp.openam.opendj</groupId>
     <version>3.0.1-SNAPSHOT</version>
   </parent>
 
@@ -46,7 +46,7 @@
 
   <dependencies>
     <dependency>
-        <groupId>org.forgerock.commons</groupId>
+        <groupId>jp.openam.commons</groupId>
         <artifactId>forgerock-util</artifactId>
     </dependency>
     <dependency>

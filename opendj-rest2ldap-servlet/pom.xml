@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>opendj-server-parent</artifactId>
-    <groupId>org.forgerock.opendj</groupId>
+    <groupId>jp.openam.opendj</groupId>
     <version>3.0.1-SNAPSHOT</version>
   </parent>
 
@@ -40,17 +40,17 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.forgerock.http</groupId>
+      <groupId>jp.openam.http</groupId>
       <artifactId>chf-http-servlet</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.forgerock.opendj</groupId>
+      <groupId>jp.openam.opendj</groupId>
       <artifactId>opendj-rest2ldap</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.forgerock.opendj</groupId>
+      <groupId>jp.openam.opendj</groupId>
       <artifactId>opendj-grizzly</artifactId>
     </dependency>
   </dependencies>

@@ -29,7 +29,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>opendj-server-parent</artifactId>
-    <groupId>org.forgerock.opendj</groupId>
+    <groupId>jp.openam.opendj</groupId>
     <version>3.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>opendj-server-example-plugin</artifactId>
@@ -40,15 +40,15 @@
   <packaging>jar</packaging>
   <dependencies>
     <dependency>
-      <groupId>org.forgerock.opendj</groupId>
+      <groupId>jp.openam.opendj</groupId>
       <artifactId>opendj-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.forgerock.opendj</groupId>
+      <groupId>jp.openam.opendj</groupId>
       <artifactId>opendj-config</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.forgerock.commons</groupId>
+      <groupId>jp.openam.commons</groupId>
       <artifactId>i18n-slf4j</artifactId>
     </dependency>
     <dependency>
@@ -59,7 +59,7 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.forgerock.commons</groupId>
+        <groupId>jp.openam.commons</groupId>
         <artifactId>i18n-maven-plugin</artifactId>
         <executions>
           <execution>
@@ -77,7 +77,7 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.forgerock.opendj</groupId>
+        <groupId>jp.openam.opendj</groupId>
         <artifactId>opendj-maven-plugin</artifactId>
         <executions>
           <execution>

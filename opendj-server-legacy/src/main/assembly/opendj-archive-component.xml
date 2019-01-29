@@ -35,7 +35,7 @@
       <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
       <excludes>
         <exclude>javax.activation:activation</exclude>
-        <exclude>org.forgerock.opendj:opendj-server-legacy</exclude>
+        <exclude>jp.openam.opendj:opendj-server-legacy</exclude>
       </excludes>
     </dependencySet>
   </dependencySets>
