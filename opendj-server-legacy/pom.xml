@@ -22,6 +22,7 @@
   ! CDDL HEADER END
   !
   !      Copyright 2011-2015 ForgeRock AS.
+  !      Portions Copyrighted 2019 Open Source Solution Technology Corporation
   !
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -30,7 +31,7 @@
   <parent>
     <groupId>org.forgerock.opendj</groupId>
     <artifactId>opendj-server-parent</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>opendj-server-legacy</artifactId>
   <packaging>jar</packaging>
