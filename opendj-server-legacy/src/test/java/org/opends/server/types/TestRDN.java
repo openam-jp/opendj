@@ -23,12 +23,14 @@
  *
  *      Copyright 2006-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.types;
 
 import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.core.DirectoryServer.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 
@@ -576,7 +578,7 @@ public final class TestRDN extends TypesTestCase {
       assertEquals(rdn1, rdn2,
           "RDN equality for <" + first + "> and <" + second + ">");
     } else {
-      assertNotEquals(rdn1, rdn2,
+      Assert.assertNotEquals(rdn1, rdn2,
           "RDN equality for <" + first + "> and <" + second + ">");
     }
   }
@@ -608,7 +610,7 @@ public final class TestRDN extends TypesTestCase {
       assertEquals(h1, h2, "Hash codes for <" + first + "> and <" + second
           + "> should be the same.");
     } else {
-      assertNotEquals(h1, h2, "Hash codes for <" + first + "> and <" + second
+      Assert.assertNotEquals(h1, h2, "Hash codes for <" + first + "> and <" + second
           + "> should be the same.");
     }
   }
@@ -654,7 +656,7 @@ public final class TestRDN extends TypesTestCase {
   public void testEqualityNull() {
     RDN rdn = new RDN(AT_DC, AV_DC_ORG);
 
-    assertNotEquals(rdn, null);
+    Assert.assertNotEquals(rdn, null);
   }
 
 
@@ -666,7 +668,7 @@ public final class TestRDN extends TypesTestCase {
   public void testEqualityNonRDN() {
     RDN rdn = new RDN(AT_DC, AV_DC_ORG);
 
-    assertNotEquals(rdn, "this isn't an RDN");
+    Assert.assertNotEquals(rdn, "this isn't an RDN");
   }
 }
 

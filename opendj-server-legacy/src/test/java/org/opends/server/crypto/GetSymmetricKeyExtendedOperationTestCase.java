@@ -23,6 +23,7 @@
  *
  *      Copyright 2008 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.crypto;
 
@@ -48,6 +49,7 @@ import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.config.ConfigConstants.*;
 import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * A set of test cases for the symmetric key extended operation.
@@ -145,6 +147,6 @@ public class GetSymmetricKeyExtendedOperationTestCase
          internalConnection.processExtendedOperation(
               ServerConstants.OID_GET_SYMMETRIC_KEY_EXTENDED_OP, requestValue);
 
-    assertNotEquals(extendedOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(extendedOperation.getResultCode(), ResultCode.SUCCESS);
   }
 }

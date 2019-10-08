@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.v
  */
 package org.opends.server.extensions;
 
@@ -47,6 +48,7 @@ import org.testng.annotations.Test;
 import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.util.ServerConstants.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * A set of test cases for the CRAM-MD5 SASL mechanism handler.
@@ -618,7 +620,7 @@ public class CRAMMD5SASLMechanismHandlerTestCase
     BindOperation bindOperation =
          conn.processSASLBind(DN.rootDN(), SASL_MECHANISM_CRAM_MD5,
                               ByteString.valueOfUtf8("invalid"));
-    assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -643,7 +645,7 @@ public class CRAMMD5SASLMechanismHandlerTestCase
     bindOperation =
          conn.processSASLBind(DN.rootDN(), SASL_MECHANISM_CRAM_MD5,
                               ByteString.valueOfUtf8("malformed"));
-    assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -669,7 +671,7 @@ public class CRAMMD5SASLMechanismHandlerTestCase
          ByteString.valueOfUtf8("dn:cn=Directory Manager malformeddigest");
     bindOperation =
          conn.processSASLBind(DN.rootDN(), SASL_MECHANISM_CRAM_MD5, creds);
-    assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -697,6 +699,6 @@ public class CRAMMD5SASLMechanismHandlerTestCase
                           "malformedcredswiththerightlength");
     bindOperation =
          conn.processSASLBind(DN.rootDN(), SASL_MECHANISM_CRAM_MD5, creds);
-    assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
   }
 }

@@ -23,6 +23,7 @@
  *
  *      Copyright 2007-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.types;
 
@@ -86,6 +87,7 @@ import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.opends.server.protocols.internal.Requests.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * This class provides a set of test cases for the Directory Server privilege
@@ -1664,7 +1666,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "(objectClass=*)"
     };
 
-    assertNotEquals(runSearch(args), 0);
+    Assert.assertNotEquals(runSearch(args), 0);
   }
 
 
@@ -1726,7 +1728,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "(objectClass=*)"
     };
 
-    assertNotEquals(runSearch(args), 0);
+    Assert.assertNotEquals(runSearch(args), 0);
   }
 
 
@@ -1757,7 +1759,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "(objectClass=*)"
     };
 
-    assertNotEquals(runSearch(args), 0);
+    Assert.assertNotEquals(runSearch(args), 0);
   }
 
 
@@ -1819,7 +1821,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "(objectClass=*)"
     };
 
-    assertNotEquals(runSearch(args), 0);
+    Assert.assertNotEquals(runSearch(args), 0);
   }
 
 
@@ -2036,7 +2038,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "(objectClass=*)"
     };
 
-    assertNotEquals(runSearch(args), 0);
+    Assert.assertNotEquals(runSearch(args), 0);
   }
 
 
@@ -2098,7 +2100,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "(objectClass=*)"
     };
 
-    assertNotEquals(runSearch(args), 0);
+    Assert.assertNotEquals(runSearch(args), 0);
   }
 
 
@@ -2129,7 +2131,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "(objectClass=*)"
     };
 
-    assertNotEquals(runSearch(args), 0);
+    Assert.assertNotEquals(runSearch(args), 0);
   }
 
 
@@ -2191,7 +2193,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "(objectClass=*)"
     };
 
-    assertNotEquals(runSearch(args), 0);
+    Assert.assertNotEquals(runSearch(args), 0);
   }
 
 
@@ -2222,7 +2224,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "(objectClass=*)"
     };
 
-    assertNotEquals(runSearch(searchArgs), 0);
+    Assert.assertNotEquals(runSearch(searchArgs), 0);
 
 
     // Disable the PROXIED_AUTH privilege and verify that the operation now
@@ -2239,7 +2241,7 @@ public class PrivilegeTestCase extends TypesTestCase
       "set-global-configuration-prop",
       "--remove", "disabled-privilege:proxied-auth");
 
-    assertNotEquals(runSearch(searchArgs), 0);
+    Assert.assertNotEquals(runSearch(searchArgs), 0);
   }
 
   private int runSearch(String[] args)

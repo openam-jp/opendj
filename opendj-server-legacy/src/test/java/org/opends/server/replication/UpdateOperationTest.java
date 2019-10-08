@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.replication;
 
@@ -62,6 +63,7 @@ import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.opends.server.replication.plugin.LDAPReplicationDomain.*;
 import static org.opends.server.util.CollectionUtils.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * Test synchronization of update operations on the directory server and through
@@ -1045,7 +1047,7 @@ public class UpdateOperationTest extends ReplicationTestCase
       @Override
       public Void call() throws Exception
       {
-        assertNotEquals(getMonitorDelta() , 0);
+        Assert.assertNotEquals(getMonitorDelta() , 0);
         return null;
       }
     });
@@ -1323,7 +1325,7 @@ public class UpdateOperationTest extends ReplicationTestCase
           @Override
           public Void call() throws Exception
           {
-            assertNotEquals(getMonitorAttrValue(baseDN, "replayed-updates"), initialCount);
+            Assert.assertNotEquals(getMonitorAttrValue(baseDN, "replayed-updates"), initialCount);
             return null;
           }
         });

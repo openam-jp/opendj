@@ -23,6 +23,7 @@
   !
   !      Copyright 2015 ForgeRock AS.
   !      Portions Copyrighted 2019 Open Source Solution Technology Corporation
+  !      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
   !
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -52,12 +53,10 @@
     <dependency>
         <groupId>org.twdata.maven</groupId>
         <artifactId>mojo-executor</artifactId>
-        <version>2.2.0</version>
     </dependency>
     <dependency>
         <groupId>org.apache.maven.plugin-tools</groupId>
         <artifactId>maven-plugin-annotations</artifactId>
-        <version>3.2</version>
         <scope>provided</scope>
     </dependency>
   </dependencies>

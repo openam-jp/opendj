@@ -23,11 +23,13 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.backends;
 
 import static org.opends.server.TestCaseUtils.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 
@@ -75,7 +77,7 @@ public class GenericBackendTestCase extends BackendTestCase
   {
     DN[] baseDNs = b.getBaseDNs();
     assertNotNull(baseDNs);
-    assertNotEquals(baseDNs.length, 0);
+    Assert.assertNotEquals(baseDNs.length, 0);
   }
 
   /** Tests the {@link Backend#getSupportedControls} method for the provided backend. */

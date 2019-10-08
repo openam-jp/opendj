@@ -24,6 +24,7 @@
  *      Copyright 2008-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS
  *      Portions Copyright 2013 Manuel Gaupp
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.authorization.dseecompat;
 
@@ -1793,7 +1794,7 @@ private static final  String ACI_PROXY_CONTROL_LEVEL_1 =
     String userResults =
         ldapCompare(adminParam.getLdapCompareArgs("cn:level3 user"),
             LDAPResultCode.COMPARE_TRUE);
-    assertNotEquals(userResults, "");
+    Assert.assertNotEquals(userResults, "");
   }
 
 
@@ -1838,12 +1839,12 @@ private static final  String ACI_PROXY_CONTROL_LEVEL_1 =
               makeModDN(SALES_DN, "cn=sales dept", "0", MANAGER_NEW_DN);
       modEntries(modrdnLdif, LEVEL_1_USER_DN, "pa$$word", PROXY_USER_DN);
       String userNewResults = ldapSearch(userParamNew.getLdapSearchArgs());
-      assertNotEquals(userNewResults, "");
+      Assert.assertNotEquals(userNewResults, "");
       String modrdnLdif1 =
                 makeModDN(SALES_NEW_DN, "cn=sales dept", "0", MANAGER_DN);
       modEntries(modrdnLdif1, LEVEL_1_USER_DN, "pa$$word", PROXY_USER_DN);
       String userOrigResults = ldapSearch(userParamOrig.getLdapSearchArgs());
-      assertNotEquals(userOrigResults, "");
+      Assert.assertNotEquals(userOrigResults, "");
     }
   }
 
@@ -1878,12 +1879,12 @@ private static final  String ACI_PROXY_CONTROL_LEVEL_1 =
                 makeModDN(SALES_DN, "cn=sales dept", "0", MANAGER_NEW_DN);
         modEntries(modrdnLdif, LEVEL_1_USER_DN, "pa$$word");
         String userNewResults = ldapSearch(userParamNew.getLdapSearchArgs());
-        assertNotEquals(userNewResults, "");
+        Assert.assertNotEquals(userNewResults, "");
         String modrdnLdif1 =
                 makeModDN(SALES_NEW_DN, "cn=sales dept", "0", MANAGER_DN);
         modEntries(modrdnLdif1, LEVEL_1_USER_DN, "pa$$word");
         String userOrigResults = ldapSearch(userParamOrig.getLdapSearchArgs());
-        assertNotEquals(userOrigResults, "");
+        Assert.assertNotEquals(userOrigResults, "");
     }
   }
 
@@ -1938,7 +1939,7 @@ private static final  String ACI_PROXY_CONTROL_LEVEL_1 =
             addEntries(BASIC_LDIF__GROUP_SEARCH_TESTS, DIR_MGR_DN, DIR_MGR_PW);
             modEntries(DNS_ALL_ACI, DIR_MGR_DN, DIR_MGR_PW);
             String userResults = ldapSearch(userParam.getLdapSearchArgs());
-            assertNotEquals(userResults, "");
+            Assert.assertNotEquals(userResults, "");
         }
   }
 
@@ -1963,7 +1964,7 @@ private static final  String ACI_PROXY_CONTROL_LEVEL_1 =
             addEntries(BASIC_LDIF__GROUP_SEARCH_TESTS, DIR_MGR_DN, DIR_MGR_PW);
             modEntries(GROUP1_GROUPDN_MODS, DIR_MGR_DN, DIR_MGR_PW);
             String userResults = ldapSearch(userParam.getLdapSearchArgs());
-            assertNotEquals(userResults, "");
+            Assert.assertNotEquals(userResults, "");
             String adminResults = ldapSearch(adminParam.getLdapSearchArgs());
             Assert.assertEquals(adminResults, "");
         }
@@ -1990,9 +1991,9 @@ private static final  String ACI_PROXY_CONTROL_LEVEL_1 =
         addEntries(BASIC_LDIF__SEARCH_TESTS, DIR_MGR_DN, DIR_MGR_PW);
         modEntries(GLOBAL_MODS, DIR_MGR_DN, DIR_MGR_PW);
         String monitorResults = ldapSearch(monitorParam.getLdapSearchArgs());
-        assertNotEquals(monitorResults, "");
+        Assert.assertNotEquals(monitorResults, "");
         String baseResults = ldapSearch(baseParam.getLdapSearchArgs());
-        assertNotEquals(baseResults, "");
+        Assert.assertNotEquals(baseResults, "");
         deleteAttrFromEntry(ACCESS_HANDLER_DN, ATTR_AUTHZ_GLOBAL_ACI, true);
         monitorResults = ldapSearch(monitorParam.getLdapSearchArgs());
         Assert.assertEquals(monitorResults, "");
@@ -2117,9 +2118,9 @@ private static final  String ACI_PROXY_CONTROL_LEVEL_1 =
             null, null, null);
 
       String monitorResults = ldapSearch(monitorParam.getLdapSearchArgs());
-      assertNotEquals(monitorResults, "");
+      Assert.assertNotEquals(monitorResults, "");
       String baseResults = ldapSearch(baseParam.getLdapSearchArgs());
-      assertNotEquals(baseResults, "");
+      Assert.assertNotEquals(baseResults, "");
       deleteAttrFromEntry(ACCESS_HANDLER_DN, ATTR_AUTHZ_GLOBAL_ACI, true);
       monitorResults = ldapSearch(monitorParam.getLdapSearchArgs());
       Assert.assertEquals(monitorResults, "");

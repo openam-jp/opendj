@@ -23,6 +23,7 @@
  *
  *      Copyright 2008-2009 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS.
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.controls;
 
@@ -49,6 +50,7 @@ import org.testng.annotations.Test;
 import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.util.ServerConstants.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * This class contains test cases that verify the appropriate handling of the
@@ -142,7 +144,7 @@ public class PasswordPolicyControlTestCase
 
       message = r.readMessage();
       AddResponseProtocolOp addResponse = message.getAddResponseProtocolOp();
-      assertNotEquals(addResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(addResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -209,7 +211,7 @@ public class PasswordPolicyControlTestCase
 
       message = r.readMessage();
       AddResponseProtocolOp addResponse = message.getAddResponseProtocolOp();
-      assertNotEquals(addResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(addResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -298,7 +300,7 @@ public class PasswordPolicyControlTestCase
 
       message = r.readMessage();
       AddResponseProtocolOp addResponse = message.getAddResponseProtocolOp();
-      assertNotEquals(addResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(addResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -361,7 +363,7 @@ public class PasswordPolicyControlTestCase
 
         message = r.readMessage();
         BindResponseProtocolOp bindResponse = message.getBindResponseProtocolOp();
-        assertNotEquals(bindResponse.getResultCode(), LDAPResultCode.SUCCESS);
+        Assert.assertNotEquals(bindResponse.getResultCode(), LDAPResultCode.SUCCESS);
       }
 
       bindRequest = new BindRequestProtocolOp(
@@ -376,7 +378,7 @@ public class PasswordPolicyControlTestCase
 
       message = r.readMessage();
       BindResponseProtocolOp bindResponse = message.getBindResponseProtocolOp();
-      assertNotEquals(bindResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(bindResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -450,7 +452,7 @@ public class PasswordPolicyControlTestCase
       message = r.readMessage();
       CompareResponseProtocolOp compareResponse =
            message.getCompareResponseProtocolOp();
-      assertNotEquals(compareResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(compareResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -529,7 +531,7 @@ public class PasswordPolicyControlTestCase
       message = r.readMessage();
       DeleteResponseProtocolOp deleteResponse =
            message.getDeleteResponseProtocolOp();
-      assertNotEquals(deleteResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(deleteResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -883,7 +885,7 @@ public class PasswordPolicyControlTestCase
       message = r.readMessage();
       ModifyResponseProtocolOp modifyResponse =
            message.getModifyResponseProtocolOp();
-      assertNotEquals(modifyResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(modifyResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -961,7 +963,7 @@ public class PasswordPolicyControlTestCase
       message = r.readMessage();
       ModifyResponseProtocolOp modifyResponse =
            message.getModifyResponseProtocolOp();
-      assertNotEquals(modifyResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(modifyResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -1041,7 +1043,7 @@ public class PasswordPolicyControlTestCase
       message = r.readMessage();
       ModifyResponseProtocolOp modifyResponse =
            message.getModifyResponseProtocolOp();
-      assertNotEquals(modifyResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(modifyResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -1121,7 +1123,7 @@ public class PasswordPolicyControlTestCase
       message = r.readMessage();
       ModifyResponseProtocolOp modifyResponse =
            message.getModifyResponseProtocolOp();
-      assertNotEquals(modifyResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(modifyResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -1202,7 +1204,7 @@ public class PasswordPolicyControlTestCase
       message = r.readMessage();
       ModifyDNResponseProtocolOp modifyDNResponse =
            message.getModifyDNResponseProtocolOp();
-      assertNotEquals(modifyDNResponse.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(modifyDNResponse.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);
@@ -1278,7 +1280,7 @@ public class PasswordPolicyControlTestCase
       message = r.readMessage();
       SearchResultDoneProtocolOp searchDone =
            message.getSearchResultDoneProtocolOp();
-      assertNotEquals(searchDone.getResultCode(), LDAPResultCode.SUCCESS);
+      Assert.assertNotEquals(searchDone.getResultCode(), LDAPResultCode.SUCCESS);
 
       controls = message.getControls();
       assertNotNull(controls);

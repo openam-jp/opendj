@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2009 Sun Microsystems, Inc.
  *      Portions Copyright 2012-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.types;
 
@@ -1155,7 +1156,7 @@ public class TestDN extends TypesTestCase {
     if (result == 0) {
       assertEquals   (dn1, dn2, "DN equality for <" + first + "> and <" + second + ">");
     } else {
-      assertNotEquals(dn1, dn2, "DN equality for <" + first + "> and <" + second + ">");
+      Assert.assertNotEquals(dn1, dn2, "DN equality for <" + first + "> and <" + second + ">");
     }
   }
 
@@ -1171,7 +1172,7 @@ public class TestDN extends TypesTestCase {
   public void testEqualsNonDN() throws Exception {
     DN dn = DN.valueOf("dc=example,dc=com");
 
-    assertNotEquals(dn, "not a DN");
+    Assert.assertNotEquals(dn, "not a DN");
   }
 
 
@@ -1201,7 +1202,7 @@ public class TestDN extends TypesTestCase {
       assertEquals(h1, h2,
           "Hash codes for <" + first + "> and <" + second + "> should be the same.");
     } else {
-      assertNotEquals(h1, h2,
+      Assert.assertNotEquals(h1, h2,
           "Hash codes for <" + first + "> and <" + second + "> should be the same.");
     }
   }
