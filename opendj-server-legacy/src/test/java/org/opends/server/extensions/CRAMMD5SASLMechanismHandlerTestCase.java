@@ -23,7 +23,7 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
- *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.v
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.extensions;
 
