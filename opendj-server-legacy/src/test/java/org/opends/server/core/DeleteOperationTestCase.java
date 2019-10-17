@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS.
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.core;
 
@@ -54,6 +55,7 @@ import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.opends.server.protocols.ldap.LDAPConstants.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * A set of test cases for delete operations.
@@ -240,7 +242,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     TestCaseUtils.initializeTestBackend(true);
 
     DeleteOperation deleteOperation = processDeleteRaw("ou=People,o=test");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
     @SuppressWarnings("unchecked")
     List<LocalBackendDeleteOperation> localOps =
         (List<LocalBackendDeleteOperation>) deleteOperation.getAttachment(Operation.LOCALBACKENDOPERATIONS);
@@ -356,7 +358,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     TestCaseUtils.initializeTestBackend(true);
 
     DeleteOperation deleteOperation = processDeleteRaw("malformed");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -373,7 +375,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     TestCaseUtils.initializeTestBackend(true);
 
     DeleteOperation deleteOperation = processDeleteRaw("o=does not exist");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -390,7 +392,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     TestCaseUtils.initializeTestBackend(true);
 
     DeleteOperation deleteOperation = processDelete("o=does not exist");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -406,7 +408,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     TestCaseUtils.initializeTestBackend(true);
 
     DeleteOperation deleteOperation = processDeleteRaw("cn=entry,o=does not exist");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -423,7 +425,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     TestCaseUtils.initializeTestBackend(true);
 
     DeleteOperation deleteOperation = processDelete("cn=entry,o=does not exist");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -440,7 +442,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     TestCaseUtils.initializeTestBackend(true);
 
     DeleteOperation deleteOperation = processDeleteRaw("cn=entry,o=test");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -457,7 +459,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     TestCaseUtils.initializeTestBackend(true);
 
     DeleteOperation deleteOperation = processDelete("cn=entry,o=test");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -477,7 +479,7 @@ public class DeleteOperationTestCase extends OperationTestCase
                "cn: test");
 
     DeleteOperation deleteOperation = processDeleteRaw("o=test");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -497,7 +499,7 @@ public class DeleteOperationTestCase extends OperationTestCase
                "cn: test");
 
     DeleteOperation deleteOperation = processDeleteRaw("o=test");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -516,7 +518,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     DirectoryServer.setWritabilityMode(WritabilityMode.DISABLED);
 
     DeleteOperation deleteOperation = processDeleteRaw("o=test");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
 
     DirectoryServer.setWritabilityMode(WritabilityMode.ENABLED);
   }
@@ -580,7 +582,7 @@ public class DeleteOperationTestCase extends OperationTestCase
     backend.setWritabilityMode(WritabilityMode.DISABLED);
 
     DeleteOperation deleteOperation = processDeleteRaw("o=test");
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
 
     backend.setWritabilityMode(WritabilityMode.ENABLED);
   }
@@ -973,7 +975,7 @@ responseLoop:
       assertEquals(changeListener.getAddCount(), 0);
 
       DeleteOperation deleteOperation = processDeleteRaw("cn=nonexistent,o=test");
-      assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+      Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
 
       assertEquals(changeListener.getDeleteCount(), 0);
     }

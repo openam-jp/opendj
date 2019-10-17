@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.extensions;
 
@@ -53,6 +54,7 @@ import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.opends.server.util.ServerConstants.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * A set of test cases for the DIGEST-MD5 SASL mechanism handler.
@@ -931,7 +933,7 @@ public class DigestMD5SASLMechanismHandlerTestCase
     BindOperation bindOperation =
          conn.processSASLBind(DN.rootDN(), SASL_MECHANISM_DIGEST_MD5,
                               ByteString.valueOfUtf8("invalid"));
-    assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -955,6 +957,6 @@ public class DigestMD5SASLMechanismHandlerTestCase
     bindOperation =
          conn.processSASLBind(DN.rootDN(), SASL_MECHANISM_DIGEST_MD5,
                               ByteString.valueOfUtf8("malformed"));
-    assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(bindOperation.getResultCode(), ResultCode.SUCCESS);
   }
 }

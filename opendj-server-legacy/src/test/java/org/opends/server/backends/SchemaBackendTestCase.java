@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2013-2015 ForgeRock AS.
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.backends;
 
@@ -31,6 +32,7 @@ import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.opends.server.protocols.internal.Requests.*;
 import static org.opends.server.util.StaticUtils.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -410,7 +412,7 @@ public class SchemaBackendTestCase extends BackendTestCase
          "add: objectClass",
          "objectClass: extensibleObject");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -432,7 +434,7 @@ public class SchemaBackendTestCase extends BackendTestCase
          "add: objectClass",
          "objectClass: extensibleObject");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -450,7 +452,7 @@ public class SchemaBackendTestCase extends BackendTestCase
          "changetype: modify",
          "delete: attributeTypes");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -468,7 +470,7 @@ public class SchemaBackendTestCase extends BackendTestCase
          "changetype: modify",
          "replace: attributeTypes");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -673,7 +675,7 @@ public class SchemaBackendTestCase extends BackendTestCase
          "add: attributeTypes",
          "attributeTypes: invalidsyntax");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -695,7 +697,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "SYNTAX 1.3.6.1.4.1.1466.115.121.1.99999 SINGLE-VALUE " +
               "X-ORGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
   }
 
   /**
@@ -717,7 +719,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE " +
               "X-ORGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
   }
 
   /**
@@ -739,7 +741,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE " +
               "X-ORGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
   }
 
   /**
@@ -761,7 +763,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE " +
               "X-ORGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
   }
 
   /**
@@ -783,7 +785,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE " +
               "X-APPROX 'xxxundefinedxxx' X-ORGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
   }
 
   /**
@@ -805,7 +807,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE " +
               "USAGE xxxinvalidxxx X-ORGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
   }
 
   /**
@@ -832,7 +834,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE " +
               "X-ORGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
   }
 
   /**
@@ -859,7 +861,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE " +
               "X-ORGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif, System.err), 0);
   }
 
   /**
@@ -881,7 +883,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN " +
               "'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -903,7 +905,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN " +
               "'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1003,7 +1005,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String attrName = "testremoveattributetypeundefined";
     assertFalse(DirectoryServer.getSchema().hasAttributeType(attrName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1029,7 +1031,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String attrName = "name";
     assertTrue(DirectoryServer.getSchema().hasAttributeType(attrName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertTrue(DirectoryServer.getSchema().hasAttributeType(attrName));
   }
 
@@ -1055,7 +1057,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String attrName = "uid";
     assertTrue(DirectoryServer.getSchema().hasAttributeType(attrName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertTrue(DirectoryServer.getSchema().hasAttributeType(attrName));
   }
 
@@ -1117,7 +1119,7 @@ public class SchemaBackendTestCase extends BackendTestCase
       assertFalse(DirectoryServer.getSchema().hasAttributeType(attrName));
       assertEquals(runModify(argsNotPermissive(), ldif), 0);
 
-      assertNotEquals(runModify(argsNotPermissive(), ldif1), 0);
+      Assert.assertNotEquals(runModify(argsNotPermissive(), ldif1), 0);
       assertTrue(DirectoryServer.getSchema().hasAttributeType(attrName));
     }
     finally
@@ -1168,7 +1170,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String attrName = "testremoveattributetypereferencedbydcr";
     assertFalse(DirectoryServer.getSchema().hasAttributeType(attrName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertTrue(DirectoryServer.getSchema().hasAttributeType(attrName));
   }
 
@@ -1210,7 +1212,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String attrName = "testremoveatrefbymruat";
     assertFalse(DirectoryServer.getSchema().hasAttributeType(attrName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
 
     MatchingRuleUse mru =
          DirectoryServer.getSchema().getMatchingRuleUse(matchingRule);
@@ -1358,7 +1360,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String ocName = "testaddobjectclassmultipleconflicts";
     assertFalse(DirectoryServer.getSchema().hasObjectClass(ocName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasObjectClass(ocName));
   }
 
@@ -1417,7 +1419,7 @@ public class SchemaBackendTestCase extends BackendTestCase
          "add: objectClasses",
          "objectClasses: invalidsyntax");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1438,7 +1440,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "'testAddOCUndefinedSuperior' SUP undefined STRUCTURAL " +
               "MUST cn X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1463,7 +1465,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "SUP testAddOCObsoleteSuperiorSup STRUCTURAL MUST cn " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1491,7 +1493,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "STRUCTURAL MUST testAddOCObsoleteRequiredAttrAT " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1519,7 +1521,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "STRUCTURAL MAY testAddOCObsoleteOptionalAttrAT " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1540,7 +1542,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "'testAddOCUndefinedRequired' SUP top STRUCTURAL " +
               "MUST undefined X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1563,7 +1565,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "MUST ( cn $ xxxundefinedxxx ) " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1584,7 +1586,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "'testAddOCUndefinedOptional' SUP top STRUCTURAL " +
               "MAY undefined X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1607,7 +1609,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "MAY ( cn $ xxxundefinedxxx ) " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1628,7 +1630,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "'testAddAbstractOCWithNonAbstractSuperior' SUP person " +
               "ABSTRACT MAY description X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1649,7 +1651,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "'testAddAuxiliaryOCWithStructuralSuperior' SUP person " +
               "AUXILIARY MAY description X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1670,7 +1672,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "'testAddStructuralOCWithAuxiliarySuperior' SUP posixAccount " +
               "STRUCTURAL MAY description X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -1726,7 +1728,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String ocName = "person";
     assertTrue(DirectoryServer.getSchema().hasObjectClass(ocName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertTrue(DirectoryServer.getSchema().hasObjectClass(ocName));
   }
 
@@ -1775,7 +1777,7 @@ public class SchemaBackendTestCase extends BackendTestCase
       assertFalse(DirectoryServer.getSchema().hasObjectClass(ocName));
       assertEquals(runModify(argsPermissive(), addOCThenNF), 0);
 
-      assertNotEquals(runModify(argsPermissive(), deleteOC), 0);
+      Assert.assertNotEquals(runModify(argsPermissive(), deleteOC), 0);
       assertTrue(DirectoryServer.getSchema().hasObjectClass(ocName));
     }
     finally
@@ -1818,7 +1820,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String ocName = "testremoveobjectclassreferencedbydcr";
     assertFalse(DirectoryServer.getSchema().hasObjectClass(ocName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertTrue(DirectoryServer.getSchema().hasObjectClass(ocName));
   }
 
@@ -1944,7 +1946,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String nameFormName = "testaddnameformwithundefinedreqat";
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
   }
 
@@ -1977,7 +1979,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String nameFormName = "testaddnameformwithmultipleundefinedreqat";
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
   }
 
@@ -2009,7 +2011,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String nameFormName = "testaddnameformwithundefinedoptat";
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
   }
 
@@ -2042,7 +2044,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String nameFormName = "testaddnameformwithmultipleundefinedoptat";
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
   }
 
@@ -2067,7 +2069,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String nameFormName = "testaddnameformwithundefinedoc";
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
   }
 
@@ -2098,7 +2100,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String nameFormName = "testaddnameformwithauxiliaryoc";
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
   }
 
@@ -2129,7 +2131,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String nameFormName = "testaddnameformwithobsoleteoc";
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
   }
 
@@ -2163,7 +2165,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "MUST testAddNFWithObsoleteReqATAT " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2196,7 +2198,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "MUST cn MAY testAddNFWithObsoleteOptATAT " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2364,7 +2366,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     String nameFormName = "testremovenameformreferencedbydsrnf";
     assertFalse(DirectoryServer.getSchema().hasNameForm(nameFormName));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertTrue(DirectoryServer.getSchema().hasNameForm(nameFormName));
   }
 
@@ -2557,7 +2559,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDITContentRuleUndefinedOC' NOT description " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2583,7 +2585,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDITContentRuleAuxiliaryOC' NOT description " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2609,7 +2611,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDITContentRuleObsoleteOC' NOT description " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2643,7 +2645,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDITContentRuleConflictingOC2' NOT description " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2669,7 +2671,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDITContentRuleUndefinedAuxOC' " +
               "AUX xxxundefinedxxx X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2697,7 +2699,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "AUX ( posixAccount $ xxxundefinedxxx ) " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2723,7 +2725,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDITContentRuleAuxOCNotAuxOC' " +
               "AUX person X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2751,7 +2753,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "AUX ( posixAccount $ person ) " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2781,7 +2783,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "AUX testAddDITContentRuleObsoleteAuxOCAuxiliary " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2807,7 +2809,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDITContentRuleUndefinedReqAT' " +
               "MUST xxxundefinedxxx X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2835,7 +2837,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "MUST ( cn $ xxxundefinedxxx ) " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2861,7 +2863,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDITContentRuleUndefinedOptAT' " +
               "MAY xxxundefinedxxx X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2889,7 +2891,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "MAY ( cn $ xxxundefinedxxx ) " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2915,7 +2917,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDITContentRuleUndefinedNotAT' " +
               "NOT xxxundefinedxxx X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2943,7 +2945,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NOT ( description $ xxxundefinedxxx ) " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2970,7 +2972,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDCRProhibitReqStructuralAT' " +
               "NOT cn X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -2997,7 +2999,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddDCRProhibitReqAuxiliaryAT' AUX posixAccount " +
               "NOT uid X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3029,7 +3031,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "MUST testAddDCRObsoleteReqATAT " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3061,7 +3063,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "MAY testAddDCRObsoleteOptATAT " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3093,7 +3095,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NOT testAddDCRObsoleteNotATAT " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3342,7 +3344,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     int ruleID = 999004;
     assertFalse(DirectoryServer.getSchema().hasDITStructureRule(ruleID));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasDITStructureRule(ruleID));
   }
 
@@ -3379,7 +3381,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     int ruleID = 999005;
     assertFalse(DirectoryServer.getSchema().hasDITStructureRule(ruleID));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertFalse(DirectoryServer.getSchema().hasDITStructureRule(ruleID));
   }
 
@@ -3413,7 +3415,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "FORM testAddDITStructureRuleObsoleteNameFormNF " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3457,7 +3459,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "FORM testAddDITStructureRuleObsoleteSuperiorNF2 SUP 999012 " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3558,7 +3560,7 @@ public class SchemaBackendTestCase extends BackendTestCase
     int ruleID = 999007;
     assertFalse(DirectoryServer.getSchema().hasDITStructureRule(ruleID));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
     assertTrue(DirectoryServer.getSchema().hasDITStructureRule(ruleID));
 
     ldif = toLdif(
@@ -3771,7 +3773,7 @@ public class SchemaBackendTestCase extends BackendTestCase
 
     assertFalse(DirectoryServer.getSchema().hasMatchingRuleUse(matchingRule));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
 
     MatchingRuleUse mru =
          DirectoryServer.getSchema().getMatchingRuleUse(matchingRule);
@@ -3797,7 +3799,7 @@ public class SchemaBackendTestCase extends BackendTestCase
               "NAME 'testAddMRUMRUndefined' APPLIES cn " +
               "X-ORIGIN 'SchemaBackendTestCase' )");
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3824,7 +3826,7 @@ public class SchemaBackendTestCase extends BackendTestCase
 
     assertFalse(DirectoryServer.getSchema().hasMatchingRuleUse(matchingRule));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3852,7 +3854,7 @@ public class SchemaBackendTestCase extends BackendTestCase
 
     assertFalse(DirectoryServer.getSchema().hasMatchingRuleUse(matchingRule));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3878,7 +3880,7 @@ public class SchemaBackendTestCase extends BackendTestCase
 
     assertFalse(DirectoryServer.getSchema().hasMatchingRuleUse(matchingRule));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   /**
@@ -3909,7 +3911,7 @@ public class SchemaBackendTestCase extends BackendTestCase
 
     assertFalse(DirectoryServer.getSchema().hasMatchingRuleUse(matchingRule));
 
-    assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
+    Assert.assertNotEquals(runModify(argsNotPermissive(), ldif), 0);
   }
 
   private int runModify(String[] args, String ldifContent)
@@ -4339,7 +4341,7 @@ public class SchemaBackendTestCase extends BackendTestCase
 
     ByteString newMTValue =
          schemaEntry.getAttribute(mtType).get(0).iterator().next();
-    assertNotEquals(oldMTValue, newMTValue);
+    Assert.assertNotEquals(oldMTValue, newMTValue);
   }
 
   /**

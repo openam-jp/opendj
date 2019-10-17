@@ -23,6 +23,7 @@
  *
  *      Copyright 2010 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS.
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.core;
 
@@ -46,6 +47,7 @@ import org.testng.annotations.Test;
 import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * A set of test cases for the Directory Server subentry password policy.
@@ -239,7 +241,7 @@ public class SubentryPasswordPolicyTestCase
          throws Exception
   {
     AddOperation addOperation = getRootConnection().processAdd(e);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
     assertNull(DirectoryServer.getEntry(e.getName()));
   }
 

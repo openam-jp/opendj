@@ -23,6 +23,7 @@
  *
  *      Copyright 2008-2009 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.controls;
 
@@ -53,6 +54,7 @@ import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.opends.server.protocols.internal.Requests.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * This class contains a number of test cases for the server side sort request
@@ -456,7 +458,7 @@ public class ServerSideSortControlTestCase
     SearchRequest request = newSearchRequest("dc=example,dc=com", SearchScope.WHOLE_SUBTREE, "(objectClass=person)")
         .addControl(new ServerSideSortRequestControl(true, "givenName:undefinedOrderingMatch"));
     InternalSearchOperation internalSearch = getRootConnection().processSearch(request);
-    assertNotEquals(internalSearch.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(internalSearch.getResultCode(), ResultCode.SUCCESS);
   }
 
 

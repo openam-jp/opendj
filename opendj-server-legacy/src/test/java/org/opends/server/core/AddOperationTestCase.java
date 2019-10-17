@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS.
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.core;
 
@@ -73,6 +74,7 @@ import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.opends.server.protocols.ldap.LDAPConstants.*;
 import static org.opends.server.util.CollectionUtils.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * A set of test cases for add operations.
@@ -576,7 +578,7 @@ public class AddOperationTestCase
         new LDAPAttribute("ou", "People"));
 
     AddOperation addOperation = getRootConnection().processAdd("invalid", attrs);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -597,7 +599,7 @@ public class AddOperationTestCase
         new LDAPAttribute("o", "test"));
 
     AddOperation addOperation = getRootConnection().processAdd("o=test", attrs);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -618,7 +620,7 @@ public class AddOperationTestCase
         new LDAPAttribute("o", "undefined"));
 
     AddOperation addOperation = getRootConnection().processAdd("o=undefined", attrs);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -639,7 +641,7 @@ public class AddOperationTestCase
         new LDAPAttribute("ou", "People"));
 
     AddOperation addOperation = getRootConnection().processAdd("ou=People,o=undefined", attrs);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -659,7 +661,7 @@ public class AddOperationTestCase
         new LDAPAttribute("ou", "People"));
 
     AddOperation addOperation = getRootConnection().processAdd("ou=People,o=missing,o=test", attrs);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -715,7 +717,7 @@ public class AddOperationTestCase
         new LDAPAttribute("ou", "People"));
 
     AddOperation addOperation = getRootConnection().processAdd(ByteString.valueOfUtf8("ou=People,o=test"), attrs);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
   /**
@@ -865,7 +867,7 @@ public class AddOperationTestCase
 
     AddOperation addOperation =
          getRootConnection().processAdd(ByteString.empty(), attrs);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
   /**
@@ -912,7 +914,7 @@ public class AddOperationTestCase
          "objectClass: organizationalUnit");
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
 
     DirectoryServer.setAddMissingRDNAttributes(true);
   }
@@ -980,7 +982,7 @@ public class AddOperationTestCase
          "ou: People");
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -1002,7 +1004,7 @@ public class AddOperationTestCase
          "ou: People");
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -1025,7 +1027,7 @@ public class AddOperationTestCase
          "ou: People");
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -1051,7 +1053,7 @@ public class AddOperationTestCase
          "sn: User");
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -1078,7 +1080,7 @@ public class AddOperationTestCase
          "userPassword: password"); // Missing cn
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -1107,7 +1109,7 @@ public class AddOperationTestCase
          "userPassword: password"); // Missing cn
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -1137,7 +1139,7 @@ public class AddOperationTestCase
          "dc: Not allowed by inetOrgPerson");
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -1197,7 +1199,7 @@ public class AddOperationTestCase
     userAttrs.put(attrType, newArrayList(Attributes.empty(attrType)));
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -1228,7 +1230,7 @@ public class AddOperationTestCase
     DirectoryServer.setWritabilityMode(WritabilityMode.DISABLED);
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
 
     DirectoryServer.setWritabilityMode(WritabilityMode.ENABLED);
   }
@@ -1354,7 +1356,7 @@ public class AddOperationTestCase
     b.setWritabilityMode(WritabilityMode.DISABLED);
 
     AddOperation addOperation = getRootConnection().processAdd(entry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
 
     b.setWritabilityMode(WritabilityMode.ENABLED);
   }
@@ -1495,7 +1497,7 @@ public class AddOperationTestCase
           "ou: People");
 
       AddOperation addOperation = getRootConnection().processAdd(entry);
-      assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+      Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
 
       assertEquals(changeListener.getAddCount(), 0);
     }finally {

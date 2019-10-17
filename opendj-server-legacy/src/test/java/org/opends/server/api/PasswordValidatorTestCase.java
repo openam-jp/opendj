@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS.
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.api;
 
@@ -50,6 +51,7 @@ import org.testng.annotations.Test;
 
 import static org.opends.server.TestCaseUtils.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * A set of generic test cases for password validators.
@@ -183,7 +185,7 @@ public class PasswordValidatorTestCase
 
     int returnCode = LDAPPasswordModify.mainPasswordModify(args, false, null,
                                                            null);
-    assertNotEquals(returnCode, 0);
+    Assert.assertNotEquals(returnCode, 0);
 
     assertEquals(TestPasswordValidator.getLastNewPassword(),
                  ByteString.valueOfUtf8("newPassword"));
@@ -520,7 +522,7 @@ public class PasswordValidatorTestCase
     message = r.readMessage();
     ModifyResponseProtocolOp modifyResponse =
          message.getModifyResponseProtocolOp();
-    assertNotEquals(modifyResponse.getResultCode(), 0);
+    Assert.assertNotEquals(modifyResponse.getResultCode(), 0);
 
     assertEquals(TestPasswordValidator.getLastNewPassword(),
                  ByteString.valueOfUtf8("newPassword"));

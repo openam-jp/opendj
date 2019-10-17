@@ -23,6 +23,7 @@
  *
  *      Copyright 2008-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.backends.task;
 
@@ -46,6 +47,7 @@ import org.testng.annotations.Test;
 import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.util.ServerConstants.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /** A set of test cases that can be used to test the task backend. */
 public class TaskBackendTestCase
@@ -172,7 +174,7 @@ public class TaskBackendTestCase
     int resultCode = TestCaseUtils.applyModifications(true,
       "dn: " + taskDN,
       "changetype: delete");
-    assertNotEquals(resultCode, 0);
+    Assert.assertNotEquals(resultCode, 0);
     assertTrue(DirectoryServer.entryExists(DN.valueOf(taskDN)));
   }
 
@@ -316,7 +318,7 @@ public class TaskBackendTestCase
       "changetype: modify",
       "replace: description",
       "description: foo");
-    assertNotEquals(resultCode, 0);
+    Assert.assertNotEquals(resultCode, 0);
 
 
     // Perform a modification to cancel the task.
@@ -373,7 +375,7 @@ public class TaskBackendTestCase
       "changetype: modify",
       "add: description",
       "description: foo");
-    assertNotEquals(resultCode, 0);
+    Assert.assertNotEquals(resultCode, 0);
 
 
     // Perform a modification to delete that task.
@@ -496,7 +498,7 @@ public class TaskBackendTestCase
             "changetype: modify",
             "replace: ds-recurring-task-schedule",
             "ds-recurring-task-schedule: * * * * *");
-    assertNotEquals(resultCode, 0);
+    Assert.assertNotEquals(resultCode, 0);
 
     // Delete recurring task.
     resultCode =

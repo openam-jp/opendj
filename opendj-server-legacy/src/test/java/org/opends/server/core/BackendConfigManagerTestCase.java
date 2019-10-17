@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.core;
 
@@ -50,6 +51,7 @@ import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.opends.server.protocols.internal.Requests.*;
 import static org.opends.server.util.CollectionUtils.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 /**
  * A set of generic test cases that cover adding, modifying, and removing
@@ -85,7 +87,7 @@ public class BackendConfigManagerTestCase
     Entry backendEntry = createBackendEntry(backendID, false, baseDN);
 
     AddOperation addOperation = getRootConnection().processAdd(backendEntry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -120,7 +122,7 @@ public class BackendConfigManagerTestCase
     Entry backendEntry = createBackendEntry(backendID, false, baseDN);
 
     AddOperation addOperation = getRootConnection().processAdd(backendEntry);
-    assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(addOperation.getResultCode(), ResultCode.SUCCESS);
   }
 
 
@@ -273,7 +275,7 @@ public class BackendConfigManagerTestCase
 
     // Make sure that we can't remove the parent backend with the child still in place.
     DeleteOperation deleteOperation = conn.processDelete(parentBackendEntry.getName());
-    assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
+    Assert.assertNotEquals(deleteOperation.getResultCode(), ResultCode.SUCCESS);
     assertNotNull(DirectoryServer.getBackend(parentBackendID));
 
     // Delete the child and then delete the parent.

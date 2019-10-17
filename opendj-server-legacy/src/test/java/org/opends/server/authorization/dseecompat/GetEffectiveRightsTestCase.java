@@ -23,6 +23,7 @@
  *
  *      Copyright 2008-2009 Sun Microsystems, Inc.
  *      Portions Copyright 2013-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.authorization.dseecompat;
 
@@ -30,6 +31,7 @@ import static org.opends.server.TestCaseUtils.*;
 import static org.opends.server.config.ConfigConstants.*;
 import static org.opends.server.util.ServerConstants.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 import java.util.Map;
 
@@ -185,7 +187,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
     String userResults =
             LDAPSearchParams(DIR_MGR_DN, PWD, null, "dn:", null,
                     base, filter, "aclRights");
-    assertNotEquals(userResults, "");
+    Assert.assertNotEquals(userResults, "");
     Map<String, String> attrMap = getAttrMap(userResults);
     checkEntryLevel(attrMap, rRights);
   }
@@ -205,7 +207,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
     String userResults =
             LDAPSearchParams(superUser, PWD, null, "dn: " + superUser, null,
                     base, filter, "aclRights");
-    assertNotEquals(userResults, "");
+    Assert.assertNotEquals(userResults, "");
     Map<String, String> attrMap = getAttrMap(userResults);
     checkEntryLevel(attrMap, rRights);
     aciLdif=makeAddLDIF("aci", "ou=People,o=test", addAci);
@@ -213,7 +215,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
     userResults =
             LDAPSearchParams(superUser, PWD, null, "dn: " + superUser, null,
                     base, filter, "aclRights");
-    assertNotEquals(userResults, "");
+    Assert.assertNotEquals(userResults, "");
     attrMap=getAttrMap(userResults);
     checkEntryLevel(attrMap, arRights);
     aciLdif=makeAddLDIF("aci", "ou=People,o=test", delAci);
@@ -221,7 +223,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
     userResults =
             LDAPSearchParams(superUser, PWD, null, "dn: " + superUser, null,
                     base, filter, "aclRights");
-    assertNotEquals(userResults, "");
+    Assert.assertNotEquals(userResults, "");
     attrMap=getAttrMap(userResults);
     checkEntryLevel(attrMap, adrRights);
     aciLdif=makeAddLDIF("aci", "ou=People,o=test", writeAci);
@@ -229,7 +231,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
     userResults =
             LDAPSearchParams(superUser, PWD, null, "dn: " + superUser, null,
                     base, filter, "aclRights");
-    assertNotEquals(userResults, "");
+    Assert.assertNotEquals(userResults, "");
     attrMap=getAttrMap(userResults);
     checkEntryLevel(attrMap, adrwRights);
     aciLdif=makeAddLDIF("aci", "ou=People,o=test", proxyAci);
@@ -237,7 +239,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
     userResults =
             LDAPSearchParams(superUser, PWD, null, "dn: " + superUser, null,
                     base, filter, "aclRights");
-    assertNotEquals(userResults, "");
+    Assert.assertNotEquals(userResults, "");
     attrMap=getAttrMap(userResults);
     checkEntryLevel(attrMap, allRights);
   }
@@ -258,7 +260,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
      String userResults =
             LDAPSearchCtrl(superUser, PWD, null, OID_GET_EFFECTIVE_RIGHTS,
                     base, filter, "aclRights");
-     assertNotEquals(userResults, "");
+     Assert.assertNotEquals(userResults, "");
      Map<String, String> attrMap = getAttrMap(userResults);
      checkEntryLevel(attrMap, rRights);
      aciLdif=makeAddLDIF("aci", "ou=People,o=test", addAci);
@@ -266,7 +268,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
      userResults =
             LDAPSearchCtrl(superUser, PWD, null, OID_GET_EFFECTIVE_RIGHTS,
                     base, filter, "aclRights");
-     assertNotEquals(userResults, "");
+     Assert.assertNotEquals(userResults, "");
      attrMap=getAttrMap(userResults);
      checkEntryLevel(attrMap, arRights);
      aciLdif=makeAddLDIF("aci", "ou=People,o=test", delAci);
@@ -274,7 +276,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
      userResults =
             LDAPSearchCtrl(superUser, PWD, null, OID_GET_EFFECTIVE_RIGHTS,
                     base, filter, "aclRights");
-     assertNotEquals(userResults, "");
+     Assert.assertNotEquals(userResults, "");
      attrMap=getAttrMap(userResults);
      checkEntryLevel(attrMap, adrRights);
      aciLdif=makeAddLDIF("aci", "ou=People,o=test", writeAci);
@@ -282,7 +284,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
      userResults =
             LDAPSearchCtrl(superUser, PWD, null, OID_GET_EFFECTIVE_RIGHTS,
                     base, filter, "aclRights");
-     assertNotEquals(userResults, "");
+     Assert.assertNotEquals(userResults, "");
      attrMap=getAttrMap(userResults);
      checkEntryLevel(attrMap, adrwRights);
      aciLdif=makeAddLDIF("aci", "ou=People,o=test", proxyAci);
@@ -290,7 +292,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
      userResults =
              LDAPSearchCtrl(superUser, PWD, null, OID_GET_EFFECTIVE_RIGHTS,
                      base, filter, "aclRights");
-     assertNotEquals(userResults, "");
+     Assert.assertNotEquals(userResults, "");
      attrMap=getAttrMap(userResults);
      checkEntryLevel(attrMap, allRights);
    }
@@ -308,7 +310,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
     String userResults =
            LDAPSearchCtrl(DIR_MGR_DN, PWD, null, OID_GET_EFFECTIVE_RIGHTS,
                    base, filter, "aclRights");
-    assertNotEquals(userResults, "");
+    Assert.assertNotEquals(userResults, "");
     Map<String, String> attrMap = getAttrMap(userResults);
     checkEntryLevel(attrMap, bypassRights);
   }
@@ -332,7 +334,7 @@ public class GetEffectiveRightsTestCase extends AciTestCase {
     String userResults =
             LDAPSearchParams(superUser, PWD, null, "dn: " + superUser, null,
                     base, filter, "aclRights mail description");
-    assertNotEquals(userResults, "");
+    Assert.assertNotEquals(userResults, "");
     Map<String, String> attrMap = getAttrMap(userResults);
     checkAttributeLevel(attrMap, "mail", srwMailAttrRights);
     checkAttributeLevel(attrMap, "description", srDescrptionAttrRights);
@@ -363,7 +365,7 @@ public void testSuAttrLevelParams2() throws Exception {
   String userResults =
           LDAPSearchParams(superUser, PWD, null, "dn: " + superUser, attrList,
                   base, filter, "aclRights mail description");
-  assertNotEquals(userResults, "");
+  Assert.assertNotEquals(userResults, "");
   Map<String, String> attrMap = getAttrMap(userResults);
   checkAttributeLevel(attrMap, "mail", srwMailAttrRights);
   checkAttributeLevel(attrMap, "description", srDescrptionAttrRights);
@@ -392,7 +394,7 @@ public void testSuAttrLevelParams3() throws Exception {
   String userResults =
           LDAPSearchParams(superUser, PWD, null, "dn: " + user1, memberAttrList,
                   base, filter, "aclRights");
-  assertNotEquals(userResults, "");
+  Assert.assertNotEquals(userResults, "");
   Map<String, String> attrMap = getAttrMap(userResults);
   checkAttributeLevel(attrMap, "member", selfWriteAttrRights);
 }

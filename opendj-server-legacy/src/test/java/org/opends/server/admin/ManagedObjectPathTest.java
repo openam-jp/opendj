@@ -23,11 +23,13 @@
  *
  *      Copyright 2008 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.admin;
 
 import static org.opends.server.TestCaseUtils.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 import org.opends.server.DirectoryServerTestCase;
 import org.opends.server.TestCaseUtils;
@@ -298,18 +300,18 @@ public class ManagedObjectPathTest extends DirectoryServerTestCase {
 
     assertEquals(child1, child1);
     assertEquals(child2, child2);
-    assertNotEquals(child1, child2);
-    assertNotEquals(child2, child1);
+    Assert.assertNotEquals(child1, child2);
+    Assert.assertNotEquals(child2, child1);
 
     assertFalse(child1.matches(child3));
     assertFalse(child2.matches(child3));
     assertFalse(child3.matches(child1));
     assertFalse(child3.matches(child2));
 
-    assertNotEquals(child1, child3);
-    assertNotEquals(child2, child3);
-    assertNotEquals(child3, child1);
-    assertNotEquals(child3, child2);
+    Assert.assertNotEquals(child1, child3);
+    Assert.assertNotEquals(child2, child3);
+    Assert.assertNotEquals(child3, child1);
+    Assert.assertNotEquals(child3, child2);
   }
 
   /**

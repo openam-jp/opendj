@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.controls;
 
@@ -33,6 +34,7 @@ import static org.opends.server.protocols.internal.InternalClientConnection.*;
 import static org.opends.server.protocols.internal.Requests.*;
 import static org.opends.server.util.ServerConstants.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 
 import java.util.*;
 
@@ -435,7 +437,7 @@ public class PersistentSearchControlTest extends ControlsTestCase
       }
       catch (DirectoryException e)
       {
-        assertNotEquals(type.compareTo(MODIFY_DN), 0,
+        Assert.assertNotEquals(type.compareTo(MODIFY_DN), 0,
             "couldn't decode a control with previousDN not null and type=modDN");
       }
     }
@@ -472,7 +474,7 @@ public class PersistentSearchControlTest extends ControlsTestCase
       }
       catch (DirectoryException e)
       {
-        assertNotEquals(type.compareTo(PersistentSearchChangeType.MODIFY_DN), 0,
+        Assert.assertNotEquals(type.compareTo(PersistentSearchChangeType.MODIFY_DN), 0,
             "couldn't decode a control with previousDN not null and type=modDN");
       }
     }
