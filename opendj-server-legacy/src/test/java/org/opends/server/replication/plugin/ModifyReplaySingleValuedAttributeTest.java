@@ -21,11 +21,12 @@
  * CDDL HEADER END
  *
  *      Copyright 2015 ForgeRock AS
+ *
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.replication.plugin;
 
 import static org.forgerock.opendj.ldap.ModificationType.*;
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.opends.server.util.CollectionUtils.*;
 

@@ -22,10 +22,11 @@
  *
  *
  *      Copyright 2014-2015 ForgeRock AS.
+ *
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.core;
 
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.opends.server.ServerContextBuilder.*;
 import static org.testng.Assert.*;
