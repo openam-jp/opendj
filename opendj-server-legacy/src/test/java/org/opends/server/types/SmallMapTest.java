@@ -21,6 +21,8 @@
  * CDDL HEADER END
  *
  *      Copyright 2014-2015 ForgeRock AS
+ *
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.types;
 
@@ -159,15 +161,15 @@ public class SmallMapTest extends DirectoryServerTestCase
   public void testEntrySetIterator() throws Exception
   {
     SmallMap<Integer, String> map = new SmallMap<>();
-    assertThat(map.entrySet().iterator()).isEmpty();
+    assertThat(map.entrySet().iterator()).toIterable().isEmpty();
 
     map.put(1, "one");
-    assertThat(map.entrySet().iterator()).containsExactly(
+    assertThat(map.entrySet().iterator()).toIterable().containsExactly(
         entry(1, "one"));
 
     map.put(1, "one");
     map.put(2, "two");
-    assertThat(map.entrySet().iterator()).containsExactly(
+    assertThat(map.entrySet().iterator()).toIterable().containsExactly(
         entry(1, "one"), entry(2, "two"));
   }
 

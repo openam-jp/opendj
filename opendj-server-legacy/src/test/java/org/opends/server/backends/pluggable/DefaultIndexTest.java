@@ -22,12 +22,13 @@
  *
  *
  *      Copyright 2015 ForgeRock AS
+ *
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.server.backends.pluggable;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.forgerock.opendj.ldap.ByteString.valueOfUtf8;
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.opends.server.backends.pluggable.EntryIDSet.*;
 import static org.opends.server.backends.pluggable.State.IndexFlag.*;
