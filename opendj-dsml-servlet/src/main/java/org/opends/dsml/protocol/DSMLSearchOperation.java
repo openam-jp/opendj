@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2009 Sun Microsystems, Inc.
  *      Portions Copyright 2012-2015 ForgeRock AS.
+ *      Portions Copyrighted 2019 OGIS-RI Co., Ltd.
  */
 package org.opends.dsml.protocol;
 
@@ -290,7 +291,7 @@ public class DSMLSearchOperation
   private static LDAPFilter createSubstringFilter(SubstringFilter sf)
         throws LDAPException, IOException
   {
-    List<Object> anyo = sf.getAny();
+    List anyo = sf.getAny();
     ArrayList<ByteString> subAnyElements = new ArrayList<>(anyo.size());
 
     for (Object o : anyo)
@@ -581,11 +582,11 @@ public class DSMLSearchOperation
             DsmlAttr dsmlAttr = objFactory.createDsmlAttr();
 
             dsmlAttr.setName(nm);
-            List<Object> dsmlAttrVal = dsmlAttr.getValue();
+            List dsmlAttrVal = dsmlAttr.getValue();
             List<ByteString> vals = attr.getValues();
             for (ByteString val : vals)
             {
-              dsmlAttrVal.add(ByteStringUtility.convertByteString(val));
+              dsmlAttrVal.add((String)ByteStringUtility.convertByteString(val));
             }
             attrList.add(dsmlAttr);
           }
