@@ -30,7 +30,7 @@
   <parent>
     <artifactId>opendj-server-parent</artifactId>
     <groupId>jp.openam.opendj</groupId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.1</version>
   </parent>
   <artifactId>opendj-server-example-plugin</artifactId>
   <name>OpenDJ Server Example Plugin</name>
