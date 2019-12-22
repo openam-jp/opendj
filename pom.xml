@@ -31,7 +31,7 @@
     <parent>
         <groupId>jp.openam.opendj</groupId>
         <artifactId>opendj-sdk-parent</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.0.1</version>
     </parent>
 
     <groupId>jp.openam.opendj</groupId>
@@ -103,7 +103,7 @@
 
     <properties>
         <product.name>OpenDJ</product.name>
-        <opendj.core.test.jar.version>3.0.1-SNAPSHOT</opendj.core.test.jar.version>
+        <opendj.core.test.jar.version>3.0.1</opendj.core.test.jar.version>
     </properties>
 
 
