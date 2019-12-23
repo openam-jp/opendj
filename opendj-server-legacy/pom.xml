@@ -32,7 +32,7 @@
   <parent>
     <groupId>jp.openam.opendj</groupId>
     <artifactId>opendj-server-parent</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.1</version>
   </parent>
   <artifactId>opendj-server-legacy</artifactId>
   <packaging>jar</packaging>
@@ -226,7 +226,7 @@
     <dependency>
       <groupId>jp.openam.commons</groupId>
       <artifactId>forgerock-persistit-core</artifactId>
-      <version>4.3.2-SNAPSHOT</version>
+      <version>4.3.2</version>
     </dependency>
 
     <dependency>
