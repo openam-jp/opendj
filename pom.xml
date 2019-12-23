@@ -59,7 +59,7 @@
         <developerConnection>scm:git:git@github.com:openam-jp/opendj.git</developerConnection>
         <url>https://github.com/openam-jp/opendj</url>
       <tag>3.0.1</tag>
-  </scm>
+    </scm>
 
     <dependencyManagement>
         <dependencies>
