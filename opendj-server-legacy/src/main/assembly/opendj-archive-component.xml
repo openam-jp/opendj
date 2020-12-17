@@ -22,6 +22,7 @@
   ! CDDL HEADER END
   !
   !      Copyright 2015 ForgeRock AS.
+  !      Portions Copyright 2020 Open Source Solution Technology Corporation
   !
 -->
 <!-- OpenDJ final archive content descriptor -->
@@ -34,7 +35,7 @@
       <scope>runtime</scope>
       <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
       <excludes>
-        <exclude>javax.activation:activation</exclude>
+        <exclude>com.sun.activation:jakarta.activation</exclude>
         <exclude>jp.openam.opendj:opendj-server-legacy</exclude>
       </excludes>
     </dependencySet>
