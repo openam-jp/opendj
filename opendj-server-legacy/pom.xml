@@ -46,7 +46,7 @@
     <repository>
       <id>oracle-repository</id>
       <name>Oracle Maven Repository</name>
-      <url>http://download.oracle.com/maven</url>
+      <url>https://download.oracle.com/maven</url>
       <releases>
         <enabled>true</enabled>
       </releases>
