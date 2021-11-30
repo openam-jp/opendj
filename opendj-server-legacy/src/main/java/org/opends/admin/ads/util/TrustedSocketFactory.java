@@ -23,6 +23,7 @@
  *
  *      Copyright 2008 Sun Microsystems, Inc.
  *      Portions Copyright 2015 ForgeRock AS.
+ *      Portions copyright 2021 OGIS-RI Co., Ltd.
  */
 
 package org.opends.admin.ads.util;
@@ -256,7 +257,7 @@ public class TrustedSocketFactory extends SSLSocketFactory
   private SSLSocketFactory getInnerFactory() throws IOException {
     if (innerFactory == null)
     {
-      String algorithm = "TLSv1";
+      String algorithm = "TLS";
       SSLKeyException xx;
       KeyManager[] km = null;
       TrustManager[] tm = null;
