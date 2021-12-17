@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2009 Sun Microsystems, Inc.
  *      Portions Copyright 2013-2015 ForgeRock AS.
+ *      Portions copyright 2021 OGIS-RI Co., Ltd.
  */
 package org.opends.server.protocols.jmx;
 
@@ -295,7 +296,7 @@ public class RmiConnector
               : SelectableCertificateKeyManager.wrap(provider.getKeyManagers(), nicknames);
         }
 
-        SSLContext ctx = SSLContext.getInstance("TLSv1");
+        SSLContext ctx = SSLContext.getInstance("TLS");
         ctx.init(
             keyManagers,
             null,

@@ -23,6 +23,7 @@
  *
  *      Copyright 2007-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS
+ *      Portions copyright 2021 OGIS-RI Co., Ltd.
  */
 package org.opends.server.tools.status;
 
@@ -96,6 +97,7 @@ import org.opends.server.util.cli.LDAPConnectionConsoleInteraction;
 import com.forgerock.opendj.cli.ArgumentException;
 import com.forgerock.opendj.cli.CliConstants;
 import com.forgerock.opendj.cli.ClientException;
+import com.forgerock.opendj.cli.ConnectionFactoryProvider;
 import com.forgerock.opendj.cli.ConsoleApplication;
 import com.forgerock.opendj.cli.ReturnCode;
 import com.forgerock.opendj.cli.TableBuilder;
@@ -1186,6 +1188,7 @@ public class StatusCli extends ConsoleApplication
         sslBuilder.setKeyManager(keyManager);
         options.set(SSL_USE_STARTTLS, ci.useStartTLS());
         options.set(SSL_CONTEXT, sslBuilder.getSSLContext());
+        options.set(SSL_ENABLED_PROTOCOLS, ConnectionFactoryProvider.getDefaultProtocols());
 
         factory = new LDAPConnectionFactory(hostName, portNumber, options);
         connection = factory.getConnection();
