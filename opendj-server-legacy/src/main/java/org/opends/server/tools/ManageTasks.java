@@ -23,6 +23,7 @@
  *
  *      Copyright 2008-2009 Sun Microsystems, Inc.
  *      Portions Copyright 2012-2015 ForgeRock AS.
+ *      Portions copyright 2021 OGIS-RI Co., Ltd.
  */
 package org.opends.server.tools;
 
@@ -313,8 +314,8 @@ public class ManageTasks extends ConsoleApplication {
            printSummaryTable();
            return 0;
         }
-      } catch (LDAPConnectionException lce) {
-        println(INFO_TASKINFO_LDAP_EXCEPTION.get(lce.getMessageObject()));
+      } catch (LDAPConnectionException | SSLConnectionException e) {
+        println(INFO_TASKINFO_LDAP_EXCEPTION.get(e.getMessageObject()));
         return 1;
       } catch (Exception e) {
         println(LocalizableMessage.raw(StaticUtils.getExceptionMessage(e)));
