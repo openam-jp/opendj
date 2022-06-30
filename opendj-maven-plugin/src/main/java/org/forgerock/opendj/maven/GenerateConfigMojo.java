@@ -22,6 +22,7 @@
  *
  *
  *      Copyright 2013-2015 ForgeRock AS.
+ *      Portions Copyright 2022 OSSTech Corporation
  */
 package org.forgerock.opendj.maven;
 
@@ -402,6 +403,13 @@ public final class GenerateConfigMojo extends AbstractMojo {
         getLog().info("Loading XSLT stylesheets...");
         stylesheetFactory = TransformerFactory.newInstance();
         stylesheetFactory.setURIResolver(resolver);
+        try {
+            // In order to load style sheets, this plugin needs to relax the XPath limit.
+            stylesheetFactory.setAttribute("jdk.xml.xpathExprOpLimit", "200");
+        } catch (IllegalArgumentException ie) {
+            // If JDK does not support XPath Limits,
+            // IllegalArgumentException will be thrown.
+        }
         stylesheetMetaJava = loadStylesheet("metaMO.xsl");
         stylesheetMetaPackageInfo = loadStylesheet("package-info.xsl");
         stylesheetServerJava = loadStylesheet("serverMO.xsl");
