@@ -22,7 +22,7 @@
   ! CDDL HEADER END
   !
   !      Copyright 2011-2015 ForgeRock AS.
-  !      Portions Copyrighted 2019-2023 OSSTech Corporation
+  !      Portions Copyrighted 2019-2025 OSSTech Corporation
   !
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -31,12 +31,12 @@
     <parent>
         <groupId>jp.openam.opendj</groupId>
         <artifactId>opendj-sdk-parent</artifactId>
-        <version>3.0.1.1</version>
+        <version>3.0.1.2</version>
     </parent>
 
     <groupId>jp.openam.opendj</groupId>
     <artifactId>opendj-server-parent</artifactId>
-    <version>3.0.1.1</version>
+    <version>3.0.1.2</version>
 
     <packaging>pom</packaging>
 
@@ -58,7 +58,7 @@
         <connection>scm:git:https://github.com/openam-jp/opendj.git</connection>
         <developerConnection>scm:git:git@github.com:openam-jp/opendj.git</developerConnection>
         <url>https://github.com/openam-jp/opendj</url>
-      <tag>3.0.1.1</tag>
+      <tag>3.0.1.2</tag>
     </scm>
 
     <dependencyManagement>
@@ -104,7 +104,7 @@
 
     <properties>
         <product.name>OpenDJ</product.name>
-        <opendj.core.test.jar.version>3.0.1.1</opendj.core.test.jar.version>
+        <opendj.core.test.jar.version>3.0.1.2</opendj.core.test.jar.version>
     </properties>
 
 
