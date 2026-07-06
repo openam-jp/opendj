@@ -23,6 +23,7 @@
  *
  *      Copyright 2008 Sun Microsystems, Inc.
  *      Portions copyright 2014 ForgeRock AS
+ *      Portions Copyright 2026 OSSTech Corporation
  */
 package org.opends.server.snmp;
 
@@ -47,6 +48,7 @@ import org.opends.server.api.ConnectionHandler;
 import org.opends.server.core.DirectoryServer;
 import org.opends.server.core.ModifyOperationBasis;
 import org.opends.server.protocols.internal.InternalClientConnection;
+import org.opends.server.protocols.jmx.JmxConnectionHandler;
 import org.opends.server.types.Attributes;
 import org.opends.server.types.Control;
 import org.opends.server.types.DN;
@@ -295,6 +297,10 @@ public abstract class SNMPConnectionManager extends DirectoryServerTestCase
    */
   protected void enableJmx() throws Exception
   {
+    // The JMX RMI connector is disabled by default (CVE-2026-46495 mitigation);
+    // enable it so the connection handler actually starts for these tests.
+    System.setProperty(JmxConnectionHandler.JMX_CONNECTOR_ENABLED_PROPERTY, "true");
+
     ArrayList<Modification> mods = new ArrayList<Modification>();
 
     InternalClientConnection conn = InternalClientConnection

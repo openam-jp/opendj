@@ -24,6 +24,7 @@
  *      Copyright 2006-2009 Sun Microsystems, Inc.
  *      Portions Copyright 2013-2015 ForgeRock AS.
  *      Portions copyright 2021 OGIS-RI Co., Ltd.
+ *      Portions Copyright 2023-2026 3A Systems, LLC.
  */
 package org.opends.server.protocols.jmx;
 
@@ -33,6 +34,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedSet;
 
 import javax.net.ssl.KeyManager;
@@ -73,6 +75,27 @@ import org.opends.server.util.SelectableCertificateKeyManager;
 public class RmiConnector
 {
   private static final LocalizedLogger logger = LocalizedLogger.getLoggerForThisClass();
+
+  /**
+   * JDK 10+ JMX environment property scoping a JEP 290 deserialization
+   * filter to the credentials object passed during {@code newClient()}.
+   * Using the credentials-scoped filter (instead of the connector-wide
+   * {@code jmx.remote.rmi.server.serial.filter.pattern}) avoids breaking
+   * legitimate JMX traffic such as MBean invocations and notifications,
+   * which may legitimately carry non-String types.
+   * <p>
+   * Note: this property is mutually exclusive with
+   * {@code jmx.remote.rmi.server.credential.types}; specifying both makes
+   * {@code RMIJRMPServerImpl} throw an {@link IllegalArgumentException} and
+   * prevents the connector from starting. The filter pattern is preferred
+   * because it additionally constrains array length and nesting depth.
+   */
+  static final String JMX_REMOTE_RMI_SERVER_CREDENTIALS_FILTER_PATTERN =
+      "jmx.remote.rmi.server.credentials.filter.pattern";
+
+
+  private static final String JMX_CREDENTIAL_SERIAL_FILTER =
+      "maxdepth=3;maxarray=2;java.lang.String;!*";
 
 
   /**
@@ -264,6 +287,7 @@ public class RmiConnector
     {
       // Environment map
       HashMap<String, Object> env = new HashMap<>();
+      configureJmxDeserializationProtection(env);
 
       // ---------------------
       // init an ssl context
@@ -373,6 +397,19 @@ public class RmiConnector
       throw e;
     }
 
+  }
+
+  static void configureJmxDeserializationProtection(Map<String, Object> env)
+  {
+    // Scope the JEP 290 deserialization filter to the credentials object
+    // only, so legitimate JMX RMI traffic (MBean operations, notifications,
+    // etc.) is not affected by the restrictive allowlist.
+    //
+    // Do NOT also set "jmx.remote.rmi.server.credential.types": the JDK
+    // rejects an environment that defines both properties, which would
+    // prevent the RMI connector from starting.
+    env.put(JMX_REMOTE_RMI_SERVER_CREDENTIALS_FILTER_PATTERN,
+        JMX_CREDENTIAL_SERIAL_FILTER);
   }
 
   /**
