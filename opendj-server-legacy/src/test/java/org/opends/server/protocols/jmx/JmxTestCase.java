@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2013-2015 ForgeRock AS.
+ *      Portions Copyright 2026 OSSTech Corporation
  */
 package org.opends.server.protocols.jmx;
 
@@ -63,6 +64,11 @@ public abstract class JmxTestCase extends DirectoryServerTestCase
   @BeforeClass(alwaysRun = true)
   public void setUp() throws Exception
   {
+    // The JMX RMI connector is disabled by default (CVE-2026-46495 mitigation):
+    // it only starts when this system property is explicitly set to true. These
+    // tests exercise a running connector, so enable it before the server starts.
+    System.setProperty(JmxConnectionHandler.JMX_CONNECTOR_ENABLED_PROPERTY, "true");
+
     // Make sure that the server is up and running.
     TestCaseUtils.restartServer();
     TestCaseUtils.initializeTestBackend(true);

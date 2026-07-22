@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2009 Sun Microsystems, Inc.
  *      Portions Copyright 2013-2015 ForgeRock AS
+ *      Portions Copyright 2026 OSSTech Corporation
  */
 package org.opends.server.protocols.jmx;
 
@@ -78,6 +79,21 @@ public final class JmxConnectionHandler extends
    */
   public static final String TRUST_MANAGER_ARRAY_KEY =
     "org.opends.server.protocol.jmx.ssl.trust.manager.array";
+
+  /**
+   * System property that must be explicitly set to {@code true} for the JMX
+   * RMI connector to actually start and open its listen port.
+   * <p>
+   * The connector is disabled by default regardless of the persisted
+   * {@code ds-cfg-enabled} value. This mitigates the JMX RMI deserialization
+   * vulnerability (CVE-2026-46495) on all instances - including already
+   * configured ones and Java 8 runtimes where the credentials deserialization
+   * filter is unavailable - without requiring a per-server {@code dsconfig}
+   * change. Set {@code -Djp.openam.opendj.jmx.connector.enabled=true} to
+   * restore the previous behaviour for deployments that genuinely rely on JMX.
+   */
+  public static final String JMX_CONNECTOR_ENABLED_PROPERTY =
+    "jp.openam.opendj.jmx.connector.enabled";
 
   /** The list of active client connection. */
   private final List<ClientConnection> connectionList;
@@ -152,14 +168,20 @@ public final class JmxConnectionHandler extends
       listeners.add(HostPort.allAddresses(config.getListenPort()));
 
       rmiConnector.finalizeConnectionHandler(portChanged);
-      try
+      // Honour the connector kill-switch: a configuration change must not be
+      // able to (re)open the JMX RMI port when the connector is disabled by
+      // default (CVE-2026-46495 mitigation).
+      if (isJmxConnectorEnabled())
       {
-        rmiConnector.initialize();
-      }
-      catch (RuntimeException e)
-      {
-        ccr.setResultCode(DirectoryServer.getServerErrorResultCode());
-        ccr.addMessage(LocalizableMessage.raw(e.getMessage()));
+        try
+        {
+          rmiConnector.initialize();
+        }
+        catch (RuntimeException e)
+        {
+          ccr.setResultCode(DirectoryServer.getServerErrorResultCode());
+          ccr.addMessage(LocalizableMessage.raw(e.getMessage()));
+        }
       }
     }
 
@@ -470,6 +492,15 @@ public final class JmxConnectionHandler extends
   /** {@inheritDoc} */
   @Override
   public void run() {
+    if (!isJmxConnectorEnabled())
+    {
+      logger.info(LocalizableMessage.raw(
+          "JMX connection handler not started: the JMX RMI connector is"
+          + " disabled by default (" + JMX_CONNECTOR_ENABLED_PROPERTY
+          + "=false) as a CVE-2026-46495 mitigation. Set -D"
+          + JMX_CONNECTOR_ENABLED_PROPERTY + "=true to enable it."));
+      return;
+    }
     try
     {
       rmiConnector.initialize();
@@ -478,6 +509,19 @@ public final class JmxConnectionHandler extends
     {
       // Already caught and logged
     }
+  }
+
+  /**
+   * Indicates whether the JMX RMI connector is allowed to start and open its
+   * listen port. It is disabled by default and only enabled when the
+   * {@link #JMX_CONNECTOR_ENABLED_PROPERTY} system property is set to
+   * {@code true} (CVE-2026-46495 mitigation).
+   *
+   * @return {@code true} if the JMX RMI connector may be started.
+   */
+  private static boolean isJmxConnectorEnabled()
+  {
+    return Boolean.getBoolean(JMX_CONNECTOR_ENABLED_PROPERTY);
   }
 
 
