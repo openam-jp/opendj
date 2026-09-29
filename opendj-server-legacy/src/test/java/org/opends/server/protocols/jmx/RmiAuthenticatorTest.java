@@ -63,19 +63,27 @@ public class RmiAuthenticatorTest extends DirectoryServerTestCase
 
     assertEquals(env.get(RmiConnector.JMX_REMOTE_RMI_SERVER_CREDENTIALS_FILTER_PATTERN),
         "maxdepth=3;maxarray=2;java.lang.String;!*");
-    // The connector-wide filter must NOT be set, so legitimate JMX traffic
-    // (MBean operations, notifications) is not affected by the allowlist.
-    assertNull(env.get("jmx.remote.rmi.server.serial.filter.pattern"));
+    // The connector-wide filter is now also configured so that post-authentication
+    // traffic (MBean operation arguments, attribute values) is constrained to a
+    // safe allowlist instead of being deserialized without any filter
+    // (CVE-2026-62373 / GHSA-qj63-3vrg-vcfx, incomplete fix of CVE-2026-46495).
+    // Like the credentials filter, this jmx.remote.rmi.server.serial.filter.pattern
+    // property is honoured only by the JDK 10+ RMIConnectorServer and is silently
+    // ignored on a Java 8 runtime, so this asserts only the connector wiring, not
+    // runtime enforcement. End-to-end enforcement is covered by the JMX
+    // integration tests when running on a JDK 10+ runtime.
+    assertNotNull(env.get(RmiConnector.JMX_REMOTE_RMI_SERVER_SERIAL_FILTER_PATTERN));
     // "jmx.remote.rmi.server.credential.types" is mutually exclusive with the
     // credentials filter pattern: setting both prevents the connector from
     // starting, so only the filter pattern must be configured.
     assertNull(env.get("jmx.remote.rmi.server.credential.types"));
   }
 
-  // Note: the actual enforcement of the credentials serial filter is performed
-  // by the JDK's RMIConnectorServer (the "jmx.remote.rmi.server.credentials.filter.pattern"
-  // property, available on JDK 9+). A unit test exercising it directly would have
-  // to use java.io.ObjectInputFilter / ObjectInputStream.setObjectInputFilter(),
+  // Note: the actual enforcement of these serial filters is performed by the
+  // JDK's RMIConnectorServer (the "jmx.remote.rmi.server.credentials.filter.pattern"
+  // and "jmx.remote.rmi.server.serial.filter.pattern" properties, available on
+  // JDK 10+). A unit test exercising it directly would have to use
+  // java.io.ObjectInputFilter / ObjectInputStream.setObjectInputFilter(),
   // which do not exist on Java 8 and would break compilation on a Java 8 build.
   // We therefore assert only the connector wiring (above) and the credential
   // shape validation performed by RmiAuthenticator (which works on all JDKs and
