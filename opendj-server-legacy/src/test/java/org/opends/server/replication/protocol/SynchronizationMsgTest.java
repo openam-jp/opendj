@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS
+ *      Portions Copyright 2026 OSSTech Corporation
  */
 package org.opends.server.replication.protocol;
 
@@ -178,8 +179,8 @@ public class SynchronizationMsgTest extends ReplicationTestCase
     ModifyOperation mod2 = (ModifyOperation) generatedMsg.createOperation(connection);
 
     assertEquals(mod1.getRawEntryDN(), mod2.getRawEntryDN());
-    assertEquals(mod1.getAttachment(SYNCHROCONTEXT),
-                 mod2.getAttachment(SYNCHROCONTEXT));
+    assertEquals(mod1.<OperationContext> getAttachment(SYNCHROCONTEXT),
+                 mod2.<OperationContext> getAttachment(SYNCHROCONTEXT));
     assertEquals(mod1.getModifications(), mod2.getModifications());
   }
 
@@ -490,7 +491,8 @@ public class SynchronizationMsgTest extends ReplicationTestCase
     AddOperation genAddOp = generatedMsg.createOperation(connection, dn);
 
     assertEquals(addOp.getRawEntryDN(), genAddOp.getRawEntryDN());
-    assertEquals(addOp.getAttachment(SYNCHROCONTEXT), genAddOp.getAttachment(SYNCHROCONTEXT));
+    assertEquals(addOp.<OperationContext> getAttachment(SYNCHROCONTEXT),
+                 genAddOp.<OperationContext> getAttachment(SYNCHROCONTEXT));
     assertEquals(addOp.getObjectClasses(), genAddOp.getObjectClasses());
     assertEquals(addOp.getOperationalAttributes(), genAddOp.getOperationalAttributes());
     assertEquals(addOp.getUserAttributes(), genAddOp.getUserAttributes());
