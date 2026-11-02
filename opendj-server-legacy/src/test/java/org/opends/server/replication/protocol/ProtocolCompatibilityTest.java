@@ -23,6 +23,7 @@
  *
  *      Copyright 2009-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2011-2015 ForgeRock AS
+ *      Portions Copyright 2026 OSSTech Corporation
  */
 package org.opends.server.replication.protocol;
 
@@ -254,8 +255,8 @@ public class ProtocolCompatibilityTest extends ReplicationTestCase {
     AddOperationBasis genAddOpBasis = (AddOperationBasis) generatedOperation;
 
     assertEquals(addOpBasis.getRawEntryDN(), genAddOpBasis.getRawEntryDN());
-    assertEquals( addOpBasis.getAttachment(SYNCHROCONTEXT),
-                  genAddOpBasis.getAttachment(SYNCHROCONTEXT));
+    assertEquals( addOpBasis.<OperationContext> getAttachment(SYNCHROCONTEXT),
+                  genAddOpBasis.<OperationContext> getAttachment(SYNCHROCONTEXT));
     assertEquals(addOpBasis.getObjectClasses(), genAddOpBasis.getObjectClasses());
     assertEquals(addOpBasis.getOperationalAttributes(), genAddOpBasis.getOperationalAttributes());
     assertEquals(addOpBasis.getUserAttributes(), genAddOpBasis.getUserAttributes());
@@ -302,8 +303,8 @@ public class ProtocolCompatibilityTest extends ReplicationTestCase {
     genAddOpBasis = (AddOperationBasis) generatedOperation;
 
     assertEquals(addOpBasis.getRawEntryDN(), genAddOpBasis.getRawEntryDN());
-    assertEquals( addOpBasis.getAttachment(SYNCHROCONTEXT),
-                  genAddOpBasis.getAttachment(SYNCHROCONTEXT));
+    assertEquals( addOpBasis.<OperationContext> getAttachment(SYNCHROCONTEXT),
+                  genAddOpBasis.<OperationContext> getAttachment(SYNCHROCONTEXT));
     assertEquals(addOpBasis.getObjectClasses(), genAddOpBasis.getObjectClasses());
     assertEquals(addOpBasis.getOperationalAttributes(), genAddOpBasis.getOperationalAttributes());
     assertEquals(addOpBasis.getUserAttributes(), genAddOpBasis.getUserAttributes());
@@ -562,8 +563,8 @@ public class ProtocolCompatibilityTest extends ReplicationTestCase {
     ModifyOperationBasis genModOpBasisFromV1 = (ModifyOperationBasis) opFromV1;
 
     assertEquals(modOpBasisFromOrigVlast.getRawEntryDN(), genModOpBasisFromV1.getRawEntryDN());
-    assertEquals( modOpBasisFromOrigVlast.getAttachment(SYNCHROCONTEXT),
-                  genModOpBasisFromV1.getAttachment(SYNCHROCONTEXT));
+    assertEquals( modOpBasisFromOrigVlast.<OperationContext> getAttachment(SYNCHROCONTEXT),
+                  genModOpBasisFromV1.<OperationContext> getAttachment(SYNCHROCONTEXT));
     List<Modification> modsvlast = modOpBasisFromOrigVlast.getModifications();
     List<Modification> modsv1 = genModOpBasisFromV1.getModifications();
 
@@ -611,8 +612,8 @@ public class ProtocolCompatibilityTest extends ReplicationTestCase {
 
     assertEquals(modOpBasisFromOrigVlast.getRawEntryDN(),
         modOpBasisFromGeneratedVlast.getRawEntryDN());
-    assertEquals( modOpBasisFromOrigVlast.getAttachment(SYNCHROCONTEXT),
-        modOpBasisFromGeneratedVlast.getAttachment(SYNCHROCONTEXT));
+    assertEquals( modOpBasisFromOrigVlast.<OperationContext> getAttachment(SYNCHROCONTEXT),
+        modOpBasisFromGeneratedVlast.<OperationContext> getAttachment(SYNCHROCONTEXT));
     assertEquals(modOpBasisFromOrigVlast.getModifications(),
         modOpBasisFromGeneratedVlast.getModifications());
   }
@@ -737,8 +738,8 @@ public class ProtocolCompatibilityTest extends ReplicationTestCase {
     ModifyDNOperationBasis genModDnOpBasis = (ModifyDNOperationBasis) generatedOperation;
 
     assertEquals(modDnOpBasis.getRawEntryDN(), genModDnOpBasis.getRawEntryDN());
-    assertEquals( modDnOpBasis.getAttachment(SYNCHROCONTEXT),
-                  genModDnOpBasis.getAttachment(SYNCHROCONTEXT));
+    assertEquals( modDnOpBasis.<OperationContext> getAttachment(SYNCHROCONTEXT),
+                  genModDnOpBasis.<OperationContext> getAttachment(SYNCHROCONTEXT));
 
     // Check default value for only VLAST fields
     assertEquals(newMsg.getAssuredMode(), AssuredMode.SAFE_DATA_MODE);
@@ -788,8 +789,8 @@ public class ProtocolCompatibilityTest extends ReplicationTestCase {
     genModDnOpBasis = (ModifyDNOperationBasis) generatedOperation;
 
     assertEquals(modDnOpBasis.getRawEntryDN(), genModDnOpBasis.getRawEntryDN());
-    assertEquals( modDnOpBasis.getAttachment(SYNCHROCONTEXT),
-                  genModDnOpBasis.getAttachment(SYNCHROCONTEXT));
+    assertEquals( modDnOpBasis.<OperationContext> getAttachment(SYNCHROCONTEXT),
+                  genModDnOpBasis.<OperationContext> getAttachment(SYNCHROCONTEXT));
     assertEquals(modDnOpBasis.getModifications(), genModDnOpBasis.getModifications());
   }
 
