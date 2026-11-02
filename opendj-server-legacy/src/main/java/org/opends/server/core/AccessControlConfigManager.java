@@ -23,6 +23,7 @@
  *
  *      Copyright 2006-2008 Sun Microsystems, Inc.
  *      Portions Copyright 2014-2015 ForgeRock AS
+ *      Portions Copyright 2026 3A Systems, LLC
  */
 package org.opends.server.core;
 
@@ -118,7 +119,8 @@ public final class AccessControlConfigManager
    */
   public boolean isAccessControlEnabled()
   {
-    return currentConfiguration.isEnabled();
+    // Until initializeAccessControl() has run, getAccessControlHandler() permits everything.
+    return currentConfiguration != null && currentConfiguration.isEnabled();
   }
 
 

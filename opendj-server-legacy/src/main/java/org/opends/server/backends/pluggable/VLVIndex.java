@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.forgerock.i18n.LocalizableMessage;
@@ -474,15 +475,22 @@ class VLVIndex extends AbstractTree implements ConfigurationChangeListener<Backe
     return i.hasNext() ? i.next() : null;
   }
 
+  /** Indicates whether this index holds the entries of the provided search, ordered by its sort keys. */
+  boolean isApplicable(final SearchOperation searchOperation, final ServerSideSortRequestControl sortControl)
+      throws DirectoryException
+  {
+    return trusted
+        && searchOperation.getBaseDN().equals(baseDN)
+        && searchOperation.getScope().equals(scope)
+        && searchOperation.getFilter().equals(filter)
+        && sortControl.getSortOrder().equals(sortOrder);
+  }
+
   EntryIDSet evaluate(final ReadableTransaction txn, final SearchOperation searchOperation,
       final ServerSideSortRequestControl sortControl, final VLVRequestControl vlvRequest,
       final StringBuilder debugBuilder) throws DirectoryException, StorageRuntimeException
   {
-    if (!trusted ||
-        !searchOperation.getBaseDN().equals(baseDN) ||
-        !searchOperation.getScope().equals(scope) ||
-        !searchOperation.getFilter().equals(filter) ||
-        !sortControl.getSortOrder().equals(sortOrder))
+    if (!isApplicable(searchOperation, sortControl))
     {
       return null;
     }
@@ -507,14 +515,25 @@ class VLVIndex extends AbstractTree implements ConfigurationChangeListener<Backe
 
   private EntryIDSet evaluateNonVLVRequest(final ReadableTransaction txn, final StringBuilder debugBuilder)
   {
-    try (Cursor<ByteString, ByteString> cursor = txn.openCursor(getName()))
+    // prevents creating a very large long array holding all the entries stored in the VLV index (see readRange())
+    // (from OPENDJ-2553)
+    final int entryCount = getEntryCount(txn);
+    if (entryCount <= IndexFilter.CURSOR_ENTRY_LIMIT)
     {
-      final long[] selectedIDs = readRange(cursor, getEntryCount(txn), debugBuilder);
-      return newDefinedSet(selectedIDs);
+      try (Cursor<ByteString, ByteString> cursor = txn.openCursor(getName()))
+      {
+        // The cursor must be positioned on the first record before readRange() reads it.
+        if (cursor.next())
+        {
+          // FIXME the array returned by readRange() is not ordered like a defined EntryIDSet expects
+          return newDefinedSet(readRange(cursor, entryCount, debugBuilder));
+        }
+      }
     }
+    return null;
   }
 
-  private int getEntryCount(final ReadableTransaction txn)
+  int getEntryCount(final ReadableTransaction txn)
   {
     return (int) counter.getCount(txn, COUNT_KEY);
   }
@@ -765,8 +784,18 @@ class VLVIndex extends AbstractTree implements ConfigurationChangeListener<Backe
 
   static ByteString encodeVLVKey(final SortOrder sortOrder, final Entry entry, final long entryID)
   {
+    return encodeVLVKey(sortOrder, entry, entryID, Collections.<AttributeType> emptySet());
+  }
+
+  /**
+   * Encodes the VLV key of an entry, leaving out the values of the attribute types in {@code unreadableTypes}, as
+   * if the entry did not have them.
+   */
+  static ByteString encodeVLVKey(final SortOrder sortOrder, final Entry entry, final long entryID,
+      final Set<AttributeType> unreadableTypes)
+  {
     final ByteStringBuilder builder = new ByteStringBuilder();
-    encodeVLVKey0(sortOrder, entry, builder);
+    encodeVLVKey0(sortOrder, entry, unreadableTypes, builder);
     builder.appendLong(entryID);
     return builder.toByteString();
   }
@@ -776,7 +805,8 @@ class VLVIndex extends AbstractTree implements ConfigurationChangeListener<Backe
     return encodeVLVKey(sortOrder, entry, entryID);
   }
 
-  private static void encodeVLVKey0(final SortOrder sortOrder, final Entry entry, final ByteStringBuilder builder)
+  private static void encodeVLVKey0(final SortOrder sortOrder, final Entry entry,
+      final Set<AttributeType> unreadableTypes, final ByteStringBuilder builder)
   {
     for (final SortKey sortKey : sortOrder.getSortKeys())
     {
@@ -786,8 +816,13 @@ class VLVIndex extends AbstractTree implements ConfigurationChangeListener<Backe
       ByteString sortValue = null;
       if (attrList != null)
       {
+        // The values may come from subtypes of the sort attribute, each of which may be unreadable on its own.
         for (Attribute a : attrList)
         {
+          if (unreadableTypes.contains(a.getAttributeType()))
+          {
+            continue;
+          }
           for (ByteString v : a)
           {
             try
