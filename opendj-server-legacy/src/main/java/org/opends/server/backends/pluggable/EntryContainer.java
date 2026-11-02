@@ -43,10 +43,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -69,6 +71,7 @@ import org.opends.server.admin.server.ConfigurationDeleteListener;
 import org.opends.server.admin.std.server.BackendIndexCfg;
 import org.opends.server.admin.std.server.BackendVLVIndexCfg;
 import org.opends.server.admin.std.server.PluggableBackendCfg;
+import org.opends.server.api.AccessControlHandler;
 import org.opends.server.api.ClientConnection;
 import org.opends.server.api.EntryCache;
 import org.opends.server.api.VirtualAttributeProvider;
@@ -90,6 +93,7 @@ import org.opends.server.controls.ServerSideSortResponseControl;
 import org.opends.server.controls.SubtreeDeleteControl;
 import org.opends.server.controls.VLVRequestControl;
 import org.opends.server.controls.VLVResponseControl;
+import org.opends.server.core.AccessControlConfigManager;
 import org.opends.server.core.AddOperation;
 import org.opends.server.core.DeleteOperation;
 import org.opends.server.core.DirectoryServer;
@@ -110,6 +114,7 @@ import org.opends.server.types.Operation;
 import org.opends.server.types.Privilege;
 import org.opends.server.types.RDN;
 import org.opends.server.types.SearchFilter;
+import org.opends.server.types.SearchResultEntry;
 import org.opends.server.types.SortKey;
 import org.opends.server.types.SortOrder;
 import org.opends.server.types.VirtualAttributeRule;
@@ -783,16 +788,44 @@ public class EntryContainer
 
           EntryIDSet entryIDSet = null;
           boolean candidatesAreInScope = false;
+          final AccessControlHandler<?> aciHandler = sortRequest != null ? sortAccessControl(searchOperation) : null;
+          boolean sortedByVLVIndex = false;
           if (sortRequest != null)
           {
             for (VLVIndex vlvIndex : vlvIndexMap.values())
             {
               try
               {
-                entryIDSet = vlvIndex.evaluate(txn, searchOperation, sortRequest, vlvRequest, debugBuffer);
+                if (aciHandler == null)
+                {
+                  entryIDSet = vlvIndex.evaluate(txn, searchOperation, sortRequest, vlvRequest, debugBuffer);
+                  sortedByVLVIndex = entryIDSet != null;
+                  if (sortedByVLVIndex)
+                  {
+                    searchOperation.addResponseControl(newServerSideSortControl(SUCCESS));
+                  }
+                }
+                else if (vlvIndex.isApplicable(searchOperation, sortRequest))
+                {
+                  // A VLV index answers from its stored keys alone, so it cannot tell which entries and sort
+                  // values the caller may read. For a caller subject to access control, only take the entries of
+                  // the index from it, and let the sort below order them through the caller's access controls
+                  // (GHSA-6f6q-q9gw-4jr4).
+                  if (refuseOverEntryLimit(vlvIndex.getEntryCount(txn), searchOperation, vlvRequest))
+                  {
+                    return null;
+                  }
+                  entryIDSet = getEntriesToSort(txn, vlvIndex, searchOperation, sortRequest, debugBuffer);
+                  // The index may have grown since it was counted: the sort must not read more entries than may be
+                  // examined. An index grown over the most entries read from it at once gives an undefined set, which
+                  // no limit admits.
+                  if (entryIDSet != null && refuseOverEntryLimit(entryIDSet.size(), searchOperation, vlvRequest))
+                  {
+                    return null;
+                  }
+                }
                 if (entryIDSet != null)
                 {
-                  searchOperation.addResponseControl(newServerSideSortControl(SUCCESS));
                   candidatesAreInScope = true;
                   break;
                 }
@@ -842,53 +875,49 @@ public class EntryContainer
                 candidatesAreInScope = true;
               }
             }
+          }
 
-            if (sortRequest != null)
-            {
-              // If the sort key is not present, the sorting will generate the
-              // default ordering. VLV search request goes through as if
-              // this sort key was not found in the user entry.
-              try
-              {
-                SortOrder sortOrder = sortRequest.getSortOrder();
-                entryIDReorderedSet = sort(txn, entryIDSet, searchOperation, sortOrder, vlvRequest);
-              }
-              catch (DirectoryException de)
-              {
-                entryIDReorderedSet = entryIDSet.toLongArray();
-                serverSideSortControlError(searchOperation, sortRequest, de);
-              }
-              try
-              {
-                if (sortRequest.containsSortKeys())
-                {
-                  searchOperation.addResponseControl(newServerSideSortControl(SUCCESS));
-                }
-                else
-                {
-                  /*
-                   * There is no sort key associated with the sort control.
-                   * Since it came here it means that the criticality is false
-                   * so let the server return all search results unsorted and
-                   * include the sortKeyResponseControl in the searchResultDone
-                   * message.
-                   */
-                  searchOperation.addResponseControl(newServerSideSortControl(NO_SUCH_ATTRIBUTE));
-                }
-              }
-              catch (DirectoryException de)
-              {
-                serverSideSortControlError(searchOperation, sortRequest, de);
-              }
-            }
-            else
-            {
-              entryIDReorderedSet = entryIDSet.toLongArray();
-            }
+          if (sortedByVLVIndex || sortRequest == null)
+          {
+            entryIDReorderedSet = entryIDSet.toLongArray();
           }
           else
           {
-            entryIDReorderedSet = entryIDSet.toLongArray();
+            // If the sort key is not present, the sorting will generate the
+            // default ordering. VLV search request goes through as if
+            // this sort key was not found in the user entry.
+            try
+            {
+              SortOrder sortOrder = sortRequest.getSortOrder();
+              entryIDReorderedSet = sort(txn, entryIDSet, searchOperation, sortOrder, vlvRequest, aciHandler);
+            }
+            catch (DirectoryException de)
+            {
+              entryIDReorderedSet = entryIDSet.toLongArray();
+              serverSideSortControlError(searchOperation, sortRequest, de);
+            }
+            try
+            {
+              if (sortRequest.containsSortKeys())
+              {
+                searchOperation.addResponseControl(newServerSideSortControl(SUCCESS));
+              }
+              else
+              {
+                /*
+                 * There is no sort key associated with the sort control.
+                 * Since it came here it means that the criticality is false
+                 * so let the server return all search results unsorted and
+                 * include the sortKeyResponseControl in the searchResultDone
+                 * message.
+                 */
+                searchOperation.addResponseControl(newServerSideSortControl(NO_SUCH_ATTRIBUTE));
+              }
+            }
+            catch (DirectoryException de)
+            {
+              serverSideSortControlError(searchOperation, sortRequest, de);
+            }
           }
 
           // If requested, construct and return a fictitious entry containing
@@ -942,6 +971,64 @@ public class EntryContainer
             searchNotIndexed(txn, searchOperation, pageRequest);
           }
           return null;
+        }
+
+        /**
+         * Refuses the search, and returns {@code true}, if the entries of a VLV index, as counted or as read, are more
+         * than may be examined for a caller subject to access control: sorting them through its access controls reads
+         * every one of them.
+         */
+        private boolean refuseOverEntryLimit(long entryCount, SearchOperation searchOperation,
+            VLVRequestControl vlvRequest)
+        {
+          final int lookthroughLimit = searchOperation.getClientConnection().getLookthroughLimit();
+          final int entryLimit =
+              lookthroughLimit > 0 ? Math.min(lookthroughLimit, CURSOR_ENTRY_LIMIT) : CURSOR_ENTRY_LIMIT;
+          if (entryCount <= entryLimit)
+          {
+            return false;
+          }
+          searchOperation.setResultCode(ResultCode.ADMIN_LIMIT_EXCEEDED);
+          searchOperation.appendErrorMessage(NOTE_LOOKTHROUGH_LIMIT_EXCEEDED.get(entryLimit));
+          searchOperation.addResponseControl(newServerSideSortControl(ADMIN_LIMIT_EXCEEDED));
+          if (vlvRequest != null)
+          {
+            searchOperation.addResponseControl(new VLVResponseControl(0, 0, ADMIN_LIMIT_EXCEEDED));
+          }
+          return true;
+        }
+
+        /**
+         * Returns the entries of a VLV index, in entry ID order, for the sort of a caller subject to access control.
+         * An index grown over the most entries read from it at once since it was checked gives an undefined set,
+         * which the caller refuses as it refuses an index already counting that many. An index that gives no entries
+         * otherwise, having stopped being applicable or no longer holding the entries it counts, gives {@code null}:
+         * the search then goes on as without it.
+         */
+        private EntryIDSet getEntriesToSort(ReadableTransaction txn, VLVIndex vlvIndex,
+            SearchOperation searchOperation, ServerSideSortRequestControl sortRequest, StringBuilder debugBuffer)
+            throws DirectoryException
+        {
+          // Without a VLV request, the index gives all its entries, but nothing when it holds none.
+          final EntryIDSet entryIDs = vlvIndex.evaluate(txn, searchOperation, sortRequest, null, debugBuffer);
+          if (entryIDs == null)
+          {
+            if (!vlvIndex.isApplicable(searchOperation, sortRequest))
+            {
+              return null;
+            }
+            final int entryCount = vlvIndex.getEntryCount(txn);
+            if (entryCount == 0)
+            {
+              return EntryIDSet.newDefinedSet();
+            }
+            return entryCount > CURSOR_ENTRY_LIMIT ? EntryIDSet.newUndefinedSet() : null;
+          }
+          // They come in the order of the stored keys, which the caller may not read: no road below, the fallback
+          // after a sort error included, may hand them out in that order.
+          final long[] ids = entryIDs.toLongArray();
+          Arrays.sort(ids);
+          return EntryIDSet.newDefinedSet(ids);
         }
 
         private void serverSideSortControlError(final SearchOperation searchOperation,
@@ -2643,8 +2730,17 @@ public class EntryContainer
     return baseEntry;
   }
 
+  /**
+   * Sorts the candidate entries of a search, then applies its VLV request if any.
+   * <p>
+   * Unless {@code aciHandler} is {@code null}, the sort goes through the caller's access controls: an entry the
+   * caller may not see takes no part in it, and a sort attribute the caller may not read on an entry sorts as if
+   * the entry had no value for it, so that neither the order nor the VLV target position or content count disclose
+   * them (GHSA-6f6q-q9gw-4jr4).
+   */
   private long[] sort(ReadableTransaction txn, EntryIDSet entryIDSet, SearchOperation searchOperation,
-      SortOrder sortOrder, VLVRequestControl vlvRequest) throws DirectoryException
+      SortOrder sortOrder, VLVRequestControl vlvRequest, AccessControlHandler<?> aciHandler)
+      throws DirectoryException
   {
     if (!entryIDSet.isDefined())
     {
@@ -2661,9 +2757,14 @@ public class EntryContainer
       try
       {
         Entry e = getEntry(txn, id);
-        if (e.matchesBaseAndScope(baseDN, scope) && filter.matchesEntry(e))
+        // The entry may have been deleted since the candidates were read, as searchIndexed() also expects.
+        if (e != null && e.matchesBaseAndScope(baseDN, scope) && filter.matchesEntry(e))
         {
-          sortMap.put(encodeVLVKey(sortOrder, e, id.longValue()), id);
+          final ByteString vlvKey = encodeVisibleVLVKey(searchOperation, aciHandler, sortOrder, e, id.longValue());
+          if (vlvKey != null)
+          {
+            sortMap.put(vlvKey, id);
+          }
         }
       }
       catch (Exception e)
@@ -2685,6 +2786,77 @@ public class EntryContainer
       return sortByOffset(searchOperation, vlvRequest, sortMap);
     }
     return sortByGreaterThanOrEqualAssertion(searchOperation, vlvRequest, sortOrder, sortMap);
+  }
+
+  /**
+   * Returns the access controls the sort of a search must go through, or {@code null} if they do not apply to it:
+   * access control is disabled, or the caller holds the bypass-acl privilege, as internal operations do.
+   */
+  private static AccessControlHandler<?> sortAccessControl(SearchOperation searchOperation)
+  {
+    final AccessControlConfigManager accessControl = AccessControlConfigManager.getInstance();
+    if (!accessControl.isAccessControlEnabled()
+        || searchOperation.getClientConnection().hasPrivilege(Privilege.BYPASS_ACL, searchOperation))
+    {
+      return null;
+    }
+    return accessControl.getAccessControlHandler();
+  }
+
+  /**
+   * Returns the VLV key of an entry as the caller may see it, or {@code null} if the caller may not see the entry.
+   * <p>
+   * Without access controls, the key is that of the entry. Otherwise the entry must pass the check a returned entry
+   * passes, and the values of the attribute types the caller may not read on it are left out of the key. The entry
+   * is the one read from the backend, with its virtual attributes, as a returned entry is.
+   */
+  private static ByteString encodeVisibleVLVKey(SearchOperation searchOperation, AccessControlHandler<?> aciHandler,
+      SortOrder sortOrder, Entry entry, long entryID)
+  {
+    if (aciHandler == null)
+    {
+      return encodeVLVKey(sortOrder, entry, entryID);
+    }
+    if (!aciHandler.maySend(searchOperation, new SearchResultEntry(entry)))
+    {
+      return null;
+    }
+    // A sort key takes its values from its attribute type and from the subtypes of it on the entry, and access
+    // control applies to each of these types on its own.
+    final Set<AttributeType> checkedTypes = new HashSet<>();
+    final Set<AttributeType> unreadableTypes = new HashSet<>();
+    for (SortKey sortKey : sortOrder.getSortKeys())
+    {
+      final List<Attribute> attrList = entry.getAttribute(sortKey.getAttributeType());
+      if (attrList == null)
+      {
+        continue;
+      }
+      for (Attribute attribute : attrList)
+      {
+        final AttributeType type = attribute.getAttributeType();
+        if (checkedTypes.add(type) && !mayRead(searchOperation, aciHandler, entry, type))
+        {
+          unreadableTypes.add(type);
+        }
+      }
+    }
+    return encodeVLVKey(sortOrder, entry, entryID, unreadableTypes);
+  }
+
+  /** Indicates whether the caller may read an attribute type on an entry, checked as the assertion control does. */
+  private static boolean mayRead(SearchOperation searchOperation, AccessControlHandler<?> aciHandler, Entry entry,
+      AttributeType attributeType)
+  {
+    try
+    {
+      return aciHandler.isAllowed(searchOperation, entry, SearchFilter.createPresenceFilter(attributeType));
+    }
+    catch (DirectoryException e)
+    {
+      logger.traceException(e);
+      return false;
+    }
   }
 
   private static final long[] toArray(Collection<EntryID> entryIDs)
