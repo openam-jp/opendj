@@ -23,6 +23,8 @@
  *
  *      Copyright 2006-2010 Sun Microsystems, Inc.
  *      Portions Copyright 2010-2015 ForgeRock AS.
+ *      Portions Copyright 2026 3A Systems, LLC.
+ *      Portions Copyright 2026 OSSTech Corporation
  */
 package org.opends.server.protocols.ldap;
 
@@ -37,6 +39,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
@@ -354,6 +357,15 @@ public final class LDAPClientConnection extends ClientConnection implements
 
   /** The time that the last operation was completed. */
   private final AtomicLong lastCompletionTime;
+  /** Whether a complete request has arrived on this connection, which ends its first request time limit. */
+  private volatile boolean requestReceived;
+  /** The task which closes this connection unless its first request arrives in time, or {@code null}. */
+  private volatile Future<?> firstRequestTimer;
+  /**
+   * The client address whose connection count this connection holds against
+   * {@code max-client-connections-per-address}, or {@code null} once given back.
+   */
+  private final AtomicReference<InetAddress> placeOfAddress = new AtomicReference<>();
 
   /** The next operation ID that should be used for this connection. */
   private final AtomicLong nextOperationID;
@@ -1058,6 +1070,8 @@ public final class LDAPClientConnection extends ClientConnection implements
 
     // Indicate that this connection is no longer valid.
     connectionValid = false;
+    cancelFirstRequestTimer();
+    releasePlaceOfAddress();
 
     if (message != null)
     {
@@ -1510,6 +1524,80 @@ public final class LDAPClientConnection extends ClientConnection implements
 
 
   /**
+   * Indicates whether a complete request has arrived on this connection.
+   *
+   * @return {@code true} once the first complete request has arrived, {@code false} before
+   */
+  boolean hasReceivedRequest()
+  {
+    return requestReceived;
+  }
+
+
+
+  /**
+   * Sets the task which closes this connection unless its first request arrives in time. The task is cancelled once
+   * the first request arrives or the connection ends, so that neither it nor this connection waits out the limit.
+   *
+   * @param timer
+   *          the scheduled task
+   */
+  void setFirstRequestTimer(Future<?> timer)
+  {
+    firstRequestTimer = timer;
+    // The connection may have ended, or its first request arrived, before the task was set.
+    if (!connectionValid || requestReceived)
+    {
+      cancelFirstRequestTimer();
+    }
+  }
+
+  private void cancelFirstRequestTimer()
+  {
+    final Future<?> timer = firstRequestTimer;
+    if (timer != null)
+    {
+      firstRequestTimer = null;
+      timer.cancel(false);
+    }
+  }
+
+
+
+  /**
+   * Records that this connection holds a place of the given client address against
+   * {@code max-client-connections-per-address}. The place is given back to the connection handler once, when the
+   * connection ends.
+   *
+   * @param address
+   *          the client address whose place this connection took
+   */
+  void holdPlaceOfAddress(InetAddress address)
+  {
+    placeOfAddress.set(address);
+    // The connection may have ended before the place was recorded: nothing else would give it back.
+    if (!connectionValid)
+    {
+      releasePlaceOfAddress();
+    }
+  }
+
+  /**
+   * Gives back the place of the client address held by this connection, if it still holds one. Only the first call
+   * gives it back, so that it may also be called on a connection which ended already.
+   */
+  void releasePlaceOfAddress()
+  {
+    final InetAddress address = placeOfAddress.getAndSet(null);
+    if (address != null)
+    {
+      connectionHandler.releasePlaceOfAddress(address);
+    }
+  }
+
+
+
+  /**
    * Returns the total number of operations initiated on this
    * connection.
    *
@@ -1604,6 +1692,11 @@ public final class LDAPClientConnection extends ClientConnection implements
    */
   boolean processLDAPMessage(LDAPMessage message)
   {
+    if (!requestReceived)
+    {
+      requestReceived = true;
+      cancelFirstRequestTimer();
+    }
     if (keepStats)
     {
       statTracker.updateMessageRead(message);
